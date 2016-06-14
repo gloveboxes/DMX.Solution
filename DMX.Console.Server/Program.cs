@@ -71,7 +71,6 @@ namespace DMX.Server
                 return;
             }
 
-            
             dmxUpdateThread.Start();
 
             while (true)
@@ -177,7 +176,7 @@ namespace DMX.Server
 
         private static void UpdateColour(byte colour, byte[] chns, uint item)
         {
-         //   if (fixture.rChns == null) { return; }
+            //   if (fixture.rChns == null) { return; }
             foreach (var chn in chns)
             {
                 dmx.UpdateChannel((int)(item + chn - 1), colour);
@@ -189,20 +188,25 @@ namespace DMX.Server
             while (true)
             {
                 Thread.Sleep((int)config.DmxUpdateRateMilliseconds); // sets minimum cadence
-                if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlay), false))
+                if (config.AutoPlay == 0)
                 {
-                    //  System.Console.WriteLine($"Time {DateTime.Now.ToShortTimeString()}, Selected Colour");
+                    dmxUpdateEvent.WaitOne();
                     dmx.DmxUpdate();
                 }
                 else
                 {
-                    RandomColour(config.AutoPlayCycleMode);
-                    dmx.DmxUpdate();
+                    if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlay), false))
+                    {
+                        dmx.DmxUpdate();
+                    }
+                    else
+                    {
+                        RandomColour(config.AutoPlayCycleMode);
+                        dmx.DmxUpdate();
+                    }
                 }
 
                 instrumentation.DmxSentCount++;
-
-                //System.Console.WriteLine($"Mqtt Messages Recieved: {instrumentation.MessagesReceived}, DMX Messages Sent: {dmxSentCount}");
             }
         }
     }

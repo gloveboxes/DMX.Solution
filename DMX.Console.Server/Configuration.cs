@@ -21,7 +21,7 @@ namespace DMX.Console.Simple
         public string MqttDataTopic { get; set; } = "dmx/data/#";
         public uint Channels { get; set; } = 50;
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
-        public uint AutoPlay { get; set; } = 3;
+        public uint AutoPlay { get; set; } = 0;
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
         public List<FixtureDescription> Fixtures { get; set; }
 
@@ -78,7 +78,7 @@ namespace DMX.Console.Simple
                     case "-?":
                         StringBuilder message = new StringBuilder();
                         message.Append("Usage:\n \n -r DMX Update Rate in Milliseconds");
-                        message.Append("\n -a Auto Play Timeout in seconds");
+                        message.Append("\n -a Auto Play Timeout in seconds (0 to disable)");
                         message.Append("\n -c Cycle Modes: ");
                         foreach (var name in Enum.GetNames(typeof(CycleMode)))
                         {
@@ -107,7 +107,7 @@ namespace DMX.Console.Simple
                         {
                             if (uint.TryParse(args[a + 1], out autoPlay))
                             {
-                                AutoPlay = autoPlay < 1 ? 1 : autoPlay;
+                                AutoPlay = autoPlay;
                             }
                             else
                             {
