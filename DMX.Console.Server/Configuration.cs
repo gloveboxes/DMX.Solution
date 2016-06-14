@@ -25,52 +25,129 @@ namespace DMX.Console.Simple
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
         public List<FixtureDescription> Fixtures { get; set; }
 
+        string FixtureFilename { get; set; }
+
+        public Configuration()
+        {
+            FixtureFilename = AppDomain.CurrentDomain.BaseDirectory + "fixtures.json";
+        }
+
         public void Log(string messsage)
         {
             System.Console.WriteLine(messsage);
         }
 
-        public void LoadFixtures()
+        public bool LoadFixtures()
         {
-            var dir = AppDomain.CurrentDomain.BaseDirectory;
-            Fixtures = JsonConvert.DeserializeObject<List<FixtureDescription>>(File.ReadAllText(dir + "fixtures.json"));
+            try
+            {
+                Fixtures = JsonConvert.DeserializeObject<List<FixtureDescription>>(File.ReadAllText(FixtureFilename));
+
+                var fixture = (from f in Fixtures orderby f.startChannel descending select f).FirstOrDefault();
+
+                if (fixture != null)
+                {
+                    Channels = (uint)(fixture.startChannel + fixture.channels);
+                    if (Channels > 512) { Channels = 512; }
+                }
+                Log($"DMX Channels {Channels}\n\n");
+            }
+            catch (Exception ex)
+            {
+                Log("Feature Json File: " + ex.Message);
+                return false;
+            }
+            return true;
         }
 
 
         public bool ParseArgs(string[] args)
         {
-            // eg DMX.Console.Simple.exe numberOfChannels DmxUpdateRate AutoPlaySeconds AutoPlayCycleMode
-
-            uint channels, dmxUpdateRateMilliseconds, autoPlay = 0;
+            uint dmxUpdateRateMilliseconds, autoPlay = 0;
             CycleMode cycleMode;
+            string fixtureFilename = string.Empty;
 
-            //args 0 = number of lights, 1 = Channels Per Light, 2 = Rgb Start Channel, 3 = DMX Update Rate in milliseconds, Auto Play timeout in minutes - all numeric
-            if (args == null || args.Length != 4)
+            // -c 50 -r 25 -a 5 -s random -f 
+
+            for (int a = 0; a < args.Length; a += 2)
             {
-                Log($"Defaults: Number of Channels {Channels}, DMX Update Rate (Milliseconds) {DmxUpdateRateMilliseconds}, Auto Play Minutes {AutoPlay}, Cycle Mode {AutoPlayCycleMode.ToString()}");
-                return true;
+                switch (args[a].ToLower())
+                {
+                    case "/?":
+                    case "?":
+                    case "-?":
+                        StringBuilder message = new StringBuilder();
+                        message.Append("Usage:\n \n -r DMX Update Rate in Milliseconds");
+                        message.Append("\n -a Auto Play Timeout in seconds");
+                        message.Append("\n -c Cycle Modes: ");
+                        foreach (var name in Enum.GetNames(typeof(CycleMode)))
+                        {
+                            message.Append(name + " ");
+                        }
+                        message.Append("\n -f full path and file name of fixture json file");
+                        Log(message.ToString());
+
+                        return false;
+                    case "-r":
+                        if (a + 1 < args.Length)
+                        {
+                            if (uint.TryParse(args[a + 1], out dmxUpdateRateMilliseconds))
+                            {
+                                DmxUpdateRateMilliseconds = dmxUpdateRateMilliseconds < 25 ? 25 : dmxUpdateRateMilliseconds;
+                            }
+                            else
+                            {
+                                Log("Invalid DMX Update Rate");
+                                return false;
+                            }
+                        }
+                        break;
+                    case "-a":
+                        if (a + 1 < args.Length)
+                        {
+                            if (uint.TryParse(args[a + 1], out autoPlay))
+                            {
+                                AutoPlay = autoPlay < 1 ? 1 : autoPlay;
+                            }
+                            else
+                            {
+                                Log("Invalid Auto Play timeout");
+                                return false;
+                            }
+                        }
+                        break;
+                    case "-c":
+                        if (a + 1 < args.Length)
+                        {
+                            if (Enum.TryParse<CycleMode>(args[a + 1].ToLowerInvariant(), out cycleMode))
+                            {
+                                AutoPlayCycleMode = cycleMode;
+                            }
+                            else
+                            {
+                                Log("Invalid Cycle Mode");
+                                return false;
+                            }
+                        }
+                        break;
+                    case "-f":
+                        if (a + 1 < args.Length)
+                        {
+                            fixtureFilename = args[a + 1];
+                            if (File.Exists(fixtureFilename)) { FixtureFilename = fixtureFilename; }
+                            else
+                            {
+                                Log($"{fixtureFilename} not found");
+                                return false;
+                            }
+                        }
+                        break;
+                }
             }
 
-
-            if (!uint.TryParse(args[0], out channels) || !uint.TryParse(args[1], out dmxUpdateRateMilliseconds) || 
-                !uint.TryParse(args[2], out autoPlay) || !Enum.TryParse<CycleMode>(args[3].ToLowerInvariant(), out cycleMode))
-            {
-                Log($"Invalid arguments passed. Expected\n NumberOfChannels DmxUpdateRateInMilliseconds AutoPlayInSeconds CycleMode(sync squential random)");
-                return false;
-            }
-
-            if (dmxUpdateRateMilliseconds < 25) { dmxUpdateRateMilliseconds = 25; }
-
-            Channels = channels;
-            DmxUpdateRateMilliseconds = dmxUpdateRateMilliseconds;
-            AutoPlay = autoPlay;
-            AutoPlayCycleMode = cycleMode;
-
-            Log($"\n\nNew defaults: \n\nDMX Channels {Channels},\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds},\nAuto Play {AutoPlay} seconds, \nCycle Mode {AutoPlayCycleMode.ToString()}.\n\n");
+            Log($"\n\nNew defaults: \nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds},\nAuto Play {AutoPlay} seconds, \nCycle Mode {AutoPlayCycleMode.ToString()}.");
 
             return true;
         }
-
-
     }
 }

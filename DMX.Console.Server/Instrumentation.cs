@@ -7,7 +7,7 @@ namespace DMX.Console.Simple
 {
     public class Instrumentation
     {
-        const string MqttTopic = "msstore/vivid/status";
+        const string MqttTopic = "dmx/status";
         private ulong messagesReceived;
 
         private MqttClient client;
@@ -50,7 +50,7 @@ namespace DMX.Console.Simple
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
         }
 
-        private void Publish()
+        public void Publish()
         {
             try
             {

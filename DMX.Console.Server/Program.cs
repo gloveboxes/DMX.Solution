@@ -53,16 +53,25 @@ namespace DMX.Server
         {
             if (!config.ParseArgs(args)) { return; }
 
-            config.LoadFixtures();
+            if (!config.LoadFixtures()) { return; };
 
             dmx = new DmxController(0, config.Channels, instrumentation);
 
-            config.Log("Opening DMX Controller");
-            dmx.Open();
+            try
+            {
+                config.Log("Opening DMX Controller");
+                dmx.Open();
 
-            config.Log("Initialising DMX Controller");
-            dmx.InitializeOpenDMX();
+                config.Log("Initialising DMX Controller");
+                dmx.InitializeOpenDMX();
+            }
+            catch (Exception ex)
+            {
+                config.Log("Problem opening DMX Controller: " + ex.Message);
+                return;
+            }
 
+            
             dmxUpdateThread.Start();
 
             while (true)
@@ -124,9 +133,11 @@ namespace DMX.Server
 
         static void ProcessCommand(string command)
         {
-            switch (command.ToUpper())
+            switch (command.ToLower())
             {
-
+                case "stats":
+                    instrumentation.Publish();
+                    break;
                 default:
                     break;
             }
