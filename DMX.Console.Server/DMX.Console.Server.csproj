@@ -69,7 +69,8 @@
     <Compile Include="Colour.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DmxController.cs" />
-    <Compile Include="Fixture.cs" />
+    <Compile Include="FixtureData.cs" />
+    <Compile Include="FixtureDescription.cs" />
     <Compile Include="Instrumentation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Fixtures.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

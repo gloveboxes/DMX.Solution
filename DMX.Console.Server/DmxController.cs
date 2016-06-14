@@ -60,10 +60,10 @@ namespace DMX.Console.Simple
             return;
         }
 
-        public void UpdateChannel(uint dmxChannel, byte[] data)
+        public void UpdateChannel(uint dmxChannel, int length, byte[] data)
         {
-            if (dmxChannel < 1 || (dmxChannel + data.Length) > channels) { return; }  // minus one to allow for the extra char added for end of array char
-            Array.Copy(data, 0, channelBuffer, dmxChannel, data.Length);
+            if (dmxChannel < 1 || (dmxChannel + length) > channels) { return; }  // minus one to allow for the extra char added for end of array char
+            Array.Copy(data, 0, channelBuffer, dmxChannel, data.Length < length ? data.Length : length); // never copy more data than fixutre length description
         }
 
         public void UpdateChannel(int dmxChannel, byte value)

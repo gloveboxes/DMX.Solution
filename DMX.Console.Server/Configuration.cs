@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,16 +18,24 @@ namespace DMX.Console.Simple
         }
 
         public string MqttBroker { get; set; } = "localhost";
-        public string MqttDataTopic { get; set; } = "msstore/vivid/light/#";
+        public string MqttDataTopic { get; set; } = "dmx/data/#";
         public uint Channels { get; set; } = 50;
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
         public uint AutoPlay { get; set; } = 3;
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
+        public List<FixtureDescription> Fixtures { get; set; }
 
         public void Log(string messsage)
         {
             System.Console.WriteLine(messsage);
         }
+
+        public void LoadFixtures()
+        {
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+            Fixtures = JsonConvert.DeserializeObject<List<FixtureDescription>>(File.ReadAllText(dir + "fixtures.json"));
+        }
+
 
         public bool ParseArgs(string[] args)
         {

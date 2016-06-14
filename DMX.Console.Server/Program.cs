@@ -19,9 +19,8 @@ namespace DMX.Server
         static Configuration config = new Configuration();
         static Instrumentation instrumentation = new Instrumentation();
 
-        static List<Fixture> fixtures = new List<Fixture>();
-        static Fixture fixture;
-        static object FixturesLock = new object();
+        static FixtureData fixtureData;
+
 
         static Colour[] RandomColours = new Colour[]
         {
@@ -53,6 +52,8 @@ namespace DMX.Server
         static void Main(string[] args)
         {
             if (!config.ParseArgs(args)) { return; }
+
+            config.LoadFixtures();
 
             dmx = new DmxController(0, config.Channels, instrumentation);
 
@@ -102,31 +103,18 @@ namespace DMX.Server
             {
                 string json = System.Text.Encoding.UTF8.GetString(e.Message);
 
-                fixture = JsonConvert.DeserializeObject<Fixture>(json);
+                fixtureData = JsonConvert.DeserializeObject<FixtureData>(json);
 
-                if (!string.IsNullOrEmpty(fixture.command)) { ProcessCommand(fixture.command); }
+                if (!string.IsNullOrEmpty(fixtureData.command)) { ProcessCommand(fixtureData.command); }
 
-                if (fixture.dmxChn == null || fixture.data == null) { return; }
+                if (fixtureData.id == null || fixtureData.data == null) { return; }
 
                 instrumentation.MessagesReceived++;
 
-                uint[] tempDmxChn = new uint[fixture.dmxChn.Length];
-
-                Array.Copy(fixture.dmxChn, tempDmxChn, tempDmxChn.Length);
-
-                for (int id = 0; id < tempDmxChn.Length; id++)
+                for (int id = 0; id < fixtureData.id.Length; id++)
                 {
-                    if ((from f in fixtures where f.dmxChn.Contains<uint>(tempDmxChn[id]) select f).FirstOrDefault() == null)
-                    {
-                        lock (FixturesLock)  // ensure access to fixtures collection is thread safe
-                        {
-                            Fixture newFixture = (Fixture)fixture.Clone();
-                            newFixture.dmxChn = new uint[] { tempDmxChn[id] };
-                            fixtures.Add(newFixture);
-                        }
-                    }
-
-                    dmx.UpdateChannel(tempDmxChn[id], fixture.data);
+                    var fixture = (from f in config.Fixtures where f.id == fixtureData.id[id] select f).FirstOrDefault();
+                    if (fixture != null) { dmx.UpdateChannel(fixture.startChannel, fixture.channels, fixtureData.data); }
                 }
 
                 dmxUpdateEvent.Set();
@@ -138,9 +126,7 @@ namespace DMX.Server
         {
             switch (command.ToUpper())
             {
-                case "CLEAR":
-                    fixtures.Clear();
-                    break;
+
                 default:
                     break;
             }
@@ -155,36 +141,32 @@ namespace DMX.Server
                 colour = RandomColours[NextColour++ % RandomColours.Length];
             }
 
-            lock (FixturesLock)
-            {
-                foreach (var fixture in fixtures)
-                {
-                    switch (mode)
-                    {
-                        case Configuration.CycleMode.sequential:
-                            colour = RandomColours[NextColour++ % RandomColours.Length];
-                            break;
-                        case Configuration.CycleMode.random:
-                            colour = new Colour((byte)rndColour.Next(0, 255), (byte)rndColour.Next(0, 255), (byte)rndColour.Next(0, 255));
-                            break;
-                        default:
-                            break;
-                    }   
 
-                    if (fixture.dmxChn == null) { continue; }
-                    foreach (var item in fixture.dmxChn)
-                    {
-                        UpdateColour(colour.Red, fixture.rChns, item);
-                        UpdateColour(colour.Green, fixture.gChns, item);
-                        UpdateColour(colour.Blue, fixture.bChns, item);
-                    }
+            foreach (var fixture in config.Fixtures)
+            {
+                switch (mode)
+                {
+                    case Configuration.CycleMode.sequential:
+                        colour = RandomColours[NextColour++ % RandomColours.Length];
+                        break;
+                    case Configuration.CycleMode.random:
+                        colour = new Colour((byte)rndColour.Next(0, 255), (byte)rndColour.Next(0, 255), (byte)rndColour.Next(0, 255));
+                        break;
+                    default:
+                        break;
                 }
+
+                dmx.UpdateChannel(fixture.startChannel, fixture.channels, fixture.autoPlayData);
+
+                UpdateColour(colour.Red, fixture.redChannels, fixture.startChannel);
+                UpdateColour(colour.Green, fixture.greenChannels, fixture.startChannel);
+                UpdateColour(colour.Blue, fixture.blueChannels, fixture.startChannel);
             }
         }
 
         private static void UpdateColour(byte colour, byte[] chns, uint item)
         {
-            if (fixture.rChns == null) { return; }
+         //   if (fixture.rChns == null) { return; }
             foreach (var chn in chns)
             {
                 dmx.UpdateChannel((int)(item + chn - 1), colour);

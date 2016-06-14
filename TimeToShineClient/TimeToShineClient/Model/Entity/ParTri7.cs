@@ -5,14 +5,9 @@ namespace TimeToShineClient.Model.Entity
 {
     class ParTri7 : IFixture
     {
-        const int ChannelsPerFixture = 6;
-        public byte[] rChns { get; set; }  = new byte[] { 2 };
-        public byte[] gChns { get; set; } = new byte[] { 3 };
-        public byte[] bChns { get; set; } = new byte[] { 4 };
-        public byte[] wChns { get; set; }
-        public uint[] dmxChn { get; set; } = new uint[] { 1, 8 };
+        const int ChannelsPerFixture = 7;
+        public uint[] id { get; set; } = new uint[] { 1, 8 };
         public byte[] data { get; } = new byte[ChannelsPerFixture];
-
 
 
         public void SetChannel(int channel, byte value)

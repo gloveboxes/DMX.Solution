@@ -14,7 +14,7 @@ namespace DMX.Client
     {
 
         const string MqttBroker = "localhost";
-        const string MqttTopic = "msstore/vivid/light/";
+        const string MqttTopic = "dmx/data/";
         static MqttClient client = new MqttClient(MqttBroker);
 
         static IFixture fixture = new ParTri7();

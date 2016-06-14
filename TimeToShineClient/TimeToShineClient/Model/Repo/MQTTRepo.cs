@@ -14,7 +14,7 @@ namespace TimeToShineClient.Model.Repo
     {
         private readonly IConfigService _configService;
         //const string MqttBroker = "27.33.31.102";
-        private string _mqttTopic = "msstore/vivid/light/";
+        private string _mqttTopic = "dmx/data/";
         private string _dmxChannel = "1";
         MqttClient client;
         //    Colour latestColour = new Colour();
@@ -90,7 +90,7 @@ namespace TimeToShineClient.Model.Repo
                 try
                 {
                   //  latestColour.MsgId = sentCount++;
-                    latestColour.dmxChn = _configService.LightIdArray;
+                    latestColour.id = _configService.LightIdArray;
 
 
                     var json = latestColour.ToJson();
