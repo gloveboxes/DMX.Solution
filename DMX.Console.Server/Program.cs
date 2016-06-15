@@ -19,28 +19,26 @@ namespace DMX.Server
 
         static Colour[] RandomColours = new Colour[]
         {
-            //new Colour(255, 0,0),
-            //new Colour(0, 255, 0),
-            //new Colour(0,0,255)
-          
             new Colour(90, 195,0), // lime
             new Colour(172, 0, 164), // purple
+            new Colour(255, 0,0), // red
             new Colour(0, 185, 137), //green
             new Colour(192, 60, 0), // copper
             new Colour(254, 29, 0), // red
             new Colour(0, 249, 253), // teal
             new Colour(255, 107, 0), // orange
+            new Colour(0,0,255), // blue
             new Colour(128, 0, 2), // crimson
             new Colour(30,0,255), // royal blue
             new Colour(215, 0, 103), // pink
             new Colour(255, 125,0), // gold
+            new Colour(0, 255, 0), // green
             new Colour(141, 0, 253), // violet
         };
 
         static uint NextColour;
         static Random rndColour = new Random();
-
-
+        
         static AutoResetEvent dmxUpdateEvent = new AutoResetEvent(false);
         static Thread dmxUpdateThread = new Thread(new ThreadStart(DmxUpdate));
 
@@ -107,14 +105,15 @@ namespace DMX.Server
 
                 fixtureData = JsonConvert.DeserializeObject<FixtureData>(json);
 
-                if (!string.IsNullOrEmpty(fixtureData.command)) {
+                if (!string.IsNullOrEmpty(fixtureData.command))
+                {
                     ProcessCommand(fixtureData.command);
                     return;
                 }
 
                 if (fixtureData.id == null) { return; }
 
-                if (fixtureData.data == null && !DataFromRGBW(fixtureData)) { return; } 
+                if (fixtureData.data == null && !DataFromRGBW(fixtureData)) { return; }
 
                 instrumentation.MessagesReceived++;
 
@@ -126,14 +125,17 @@ namespace DMX.Server
 
                 dmxUpdateEvent.Set();
             }
-            catch (Exception ex) {
-             //   config.Log(ex.Message);
-                instrumentation.Exceptions++; }
+            catch (Exception ex)
+            {
+                //   config.Log(ex.Message);
+                instrumentation.Exceptions++;
+            }
         }
 
         private static bool DataFromRGBW(FixtureData fixtureData)
         {
-            if (fixtureData.red == null && fixtureData.green == null && fixtureData.red == null && fixtureData.white == null) { return false; }
+            if (fixtureData.red == null && fixtureData.green == null 
+                && fixtureData.red == null && fixtureData.white == null) { return false; }
 
             var fixture = (from f in config.Fixtures where f.id == fixtureData.id[0] select f).FirstOrDefault();
             if (fixture == null) { return false; }
@@ -152,10 +154,10 @@ namespace DMX.Server
         static void UpdateData(FixtureData fixtureData, byte? colour, byte[] channels, uint startChannel)
         {
             if (colour == null) { return; }
-            foreach (var chn in channels)
+            foreach (var channel in channels)
             {
-                if (chn < 1) { continue; }
-                fixtureData.data[chn - 1] = (byte)colour; // zero base the chn index
+                if (channel < 1 || channel > fixtureData.data.Length) { continue; }
+                fixtureData.data[channel - 1] = (byte)colour; // zero base the chn index
             }
         }
 
@@ -203,12 +205,12 @@ namespace DMX.Server
             }
         }
 
-        private static void UpdateColour(byte colour, byte[] chns, uint item)
+        private static void UpdateColour(byte colour, byte[] channels, uint startChannel)
         {
-            //   if (fixture.rChns == null) { return; }
-            foreach (var chn in chns)
+            if (channels == null) { return; }
+            foreach (var channel in channels)
             {
-                dmx.UpdateChannel((int)(item + chn - 1), colour);
+                dmx.UpdateChannel((int)(startChannel + channel - 1), colour);
             }
         }
 

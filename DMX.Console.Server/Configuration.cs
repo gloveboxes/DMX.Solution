@@ -62,6 +62,7 @@ namespace DMX.Server
 
         public bool ParseArgs(string[] args)
         {
+            StringBuilder message = new StringBuilder();
             uint dmxUpdateRateMilliseconds, autoPlay = 0;
             CycleMode cycleMode;
             string fixtureFilename = string.Empty;
@@ -75,15 +76,18 @@ namespace DMX.Server
                     case "/?":
                     case "?":
                     case "-?":
-                        StringBuilder message = new StringBuilder();
                         message.Append("Usage:\n \n -r DMX Update Rate in Milliseconds");
                         message.Append("\n -a Auto Play Timeout in seconds (0 to disable)");
                         message.Append("\n -c Cycle Modes: ");
+                      
                         foreach (var name in Enum.GetNames(typeof(CycleMode)))
                         {
                             message.Append(name + " ");
                         }
                         message.Append("\n -f full path and file name of fixture json file");
+                        message.Append("\n -b Mqtt Broker Address (default is localhost)");
+                        message.Append("\n -t Mqtt Topic to subscribe to for DMX Data Messages (default is dmx/data/# )");
+
                         Log(message.ToString());
 
                         return false;
@@ -141,10 +145,31 @@ namespace DMX.Server
                             }
                         }
                         break;
+                    case "-b":
+                        if (a + 1 < args.Length)
+                        {
+                            MqttBroker = args[a + 1];
+                        }
+                        break;
+                    case "-t":
+                        if (a + 1 < args.Length)
+                        {
+                            MqttDataTopic = args[a + 1];
+                        }
+                        break;
+
                 }
             }
 
-            Log($"\n\nNew defaults: \nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds},\nAuto Play {AutoPlay} seconds, \nCycle Mode {AutoPlayCycleMode.ToString()}.");
+            
+            message.Append("\n\nNew defaults:");
+            message.Append($"\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds}");
+            message.Append($"\nAuto Play {AutoPlay} seconds");
+            message.Append($"\nCycle Mode {AutoPlayCycleMode.ToString()}");
+            message.Append($"\nMqtt Broker Address {MqttBroker}");
+            message.Append($"\nMqtt DMX Data Subscribe Topic {MqttDataTopic}");
+
+            Log(message.ToString());
 
             return true;
         }
