@@ -3,7 +3,7 @@ using System;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt;
 
-namespace DMX.Console.Simple
+namespace DMX.Server
 {
     public class Instrumentation
     {

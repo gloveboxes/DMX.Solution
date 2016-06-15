@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DMX.Console.Simple
+namespace DMX.Server
 {
     public class Configuration
     {
@@ -23,7 +22,7 @@ namespace DMX.Console.Simple
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
         public uint AutoPlay { get; set; } = 0;
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
-        public List<FixtureDescription> Fixtures { get; set; }
+        public List<FixtureDefinition> Fixtures { get; set; }
 
         string FixtureFilename { get; set; }
 
@@ -41,13 +40,13 @@ namespace DMX.Console.Simple
         {
             try
             {
-                Fixtures = JsonConvert.DeserializeObject<List<FixtureDescription>>(File.ReadAllText(FixtureFilename));
+                Fixtures = JsonConvert.DeserializeObject<List<FixtureDefinition>>(File.ReadAllText(FixtureFilename));
 
                 var fixture = (from f in Fixtures orderby f.startChannel descending select f).FirstOrDefault();
 
                 if (fixture != null)
                 {
-                    Channels = (uint)(fixture.startChannel + fixture.channels);
+                    Channels = (uint)(fixture.startChannel + fixture.initialise.Length);
                     if (Channels > 512) { Channels = 512; }
                 }
                 Log($"DMX Channels {Channels}\n\n");

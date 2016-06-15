@@ -7,8 +7,8 @@
     <ProjectGuid>{059AAEF1-7E90-431C-AB88-A6D2CF3FF84D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DMX.Console.Simple</RootNamespace>
-    <AssemblyName>DMX.Console.Simple</AssemblyName>
+    <RootNamespace>DMX.Server</RootNamespace>
+    <AssemblyName>DMX.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -37,7 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +47,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DMX.Server.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="M2Mqtt.Net, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -71,11 +74,10 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="DmxController.cs" />
     <Compile Include="FixtureData.cs" />
-    <Compile Include="FixtureDescription.cs" />
+    <Compile Include="FixtureDefinition.cs" />
     <Compile Include="Instrumentation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SysControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -97,9 +99,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FTD2XX.Driver\FTD2XX\FTD2XX.Driver.csproj">
+    <ProjectReference Include="..\FTD2XX-master\FTD2XX\FTD2XX.csproj">
       <Project>{e735d457-50d8-4958-b68c-79617595b023}</Project>
-      <Name>FTD2XX.Driver</Name>
+      <Name>FTD2XX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

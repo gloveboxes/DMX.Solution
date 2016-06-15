@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DMX.Server
 {
@@ -14,16 +9,16 @@ namespace DMX.Server
         public uint[] id { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public byte? Red { get; set; }
+        public byte? red { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public byte? Green { get; set; }
+        public byte? green { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public byte? Blue { get; set; }
+        public byte? blue { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public byte? White { get; set; }
+        public byte? white { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public byte[] data { get; set; }

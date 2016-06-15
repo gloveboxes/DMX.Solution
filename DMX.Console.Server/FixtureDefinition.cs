@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace DMX.Console.Simple
+namespace DMX.Server
 {
-    public class FixtureDescription
+    public class FixtureDefinition
     {
         public int id { get; set; }
 
@@ -22,10 +22,6 @@ namespace DMX.Console.Simple
         public uint startChannel { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int channels { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public byte[] autoPlayData { get; set; }
-
+        public byte[] initialise { get; set; }
     }
 }

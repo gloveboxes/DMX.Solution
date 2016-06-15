@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMX.Console.Client", "DMX.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMX.Console.Server", "DMX.Console.Server\DMX.Console.Server.csproj", "{059AAEF1-7E90-431C-AB88-A6D2CF3FF84D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FTD2XX.Driver", "FTD2XX.Driver\FTD2XX\FTD2XX.Driver.csproj", "{E735D457-50D8-4958-B68C-79617595B023}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FTD2XX", "FTD2XX-master\FTD2XX\FTD2XX.csproj", "{E735D457-50D8-4958-B68C-79617595B023}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

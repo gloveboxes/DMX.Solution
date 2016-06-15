@@ -1,12 +1,8 @@
-﻿using DMX.Console.Simple;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using System.Linq;
 using System.Threading;
 using uPLibrary.Networking.M2Mqtt;
-using System.Linq;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace DMX.Server
@@ -50,14 +46,13 @@ namespace DMX.Server
 
         static void Main(string[] args)
         {
-            if (!config.ParseArgs(args)) { return; }
-
-            if (!config.LoadFixtures()) { return; };
-
-            dmx = new DmxController(0, config.Channels, instrumentation);
-
             try
             {
+                if (!config.ParseArgs(args)) { return; }
+                if (!config.LoadFixtures()) { return; };
+
+                dmx = new DmxController(0, config.Channels, instrumentation);
+
                 config.Log("Opening DMX Controller");
                 dmx.Open();
 
@@ -112,21 +107,56 @@ namespace DMX.Server
 
                 fixtureData = JsonConvert.DeserializeObject<FixtureData>(json);
 
-                if (!string.IsNullOrEmpty(fixtureData.command)) { ProcessCommand(fixtureData.command); }
+                if (!string.IsNullOrEmpty(fixtureData.command)) {
+                    ProcessCommand(fixtureData.command);
+                    return;
+                }
 
-                if (fixtureData.id == null || fixtureData.data == null) { return; }
+                if (fixtureData.id == null) { return; }
+
+                if (fixtureData.data == null && !DataFromRGBW(fixtureData)) { return; } 
 
                 instrumentation.MessagesReceived++;
 
                 for (int id = 0; id < fixtureData.id.Length; id++)
                 {
                     var fixture = (from f in config.Fixtures where f.id == fixtureData.id[id] select f).FirstOrDefault();
-                    if (fixture != null) { dmx.UpdateChannel(fixture.startChannel, fixture.channels, fixtureData.data); }
+                    if (fixture != null) { dmx.UpdateChannel(fixture.startChannel, fixture.initialise.Length, fixtureData.data); }
                 }
 
                 dmxUpdateEvent.Set();
             }
-            catch { instrumentation.Exceptions++; }
+            catch (Exception ex) {
+             //   config.Log(ex.Message);
+                instrumentation.Exceptions++; }
+        }
+
+        private static bool DataFromRGBW(FixtureData fixtureData)
+        {
+            if (fixtureData.red == null && fixtureData.green == null && fixtureData.red == null && fixtureData.white == null) { return false; }
+
+            var fixture = (from f in config.Fixtures where f.id == fixtureData.id[0] select f).FirstOrDefault();
+            if (fixture == null) { return false; }
+
+            fixtureData.data = new byte[fixture.initialise.Length];
+            Array.Copy(fixture.initialise, fixtureData.data, fixture.initialise.Length);
+
+            UpdateData(fixtureData, fixtureData.red, fixture.redChannels, fixture.startChannel);
+            UpdateData(fixtureData, fixtureData.green, fixture.greenChannels, fixture.startChannel);
+            UpdateData(fixtureData, fixtureData.blue, fixture.blueChannels, fixture.startChannel);
+            UpdateData(fixtureData, fixtureData.white, fixture.whiteChannels, fixture.startChannel);
+
+            return true;
+        }
+
+        static void UpdateData(FixtureData fixtureData, byte? colour, byte[] channels, uint startChannel)
+        {
+            if (colour == null) { return; }
+            foreach (var chn in channels)
+            {
+                if (chn < 1) { continue; }
+                fixtureData.data[chn - 1] = (byte)colour; // zero base the chn index
+            }
         }
 
         static void ProcessCommand(string command)
@@ -165,7 +195,7 @@ namespace DMX.Server
                         break;
                 }
 
-                dmx.UpdateChannel(fixture.startChannel, fixture.channels, fixture.autoPlayData);
+                dmx.UpdateChannel(fixture.startChannel, fixture.initialise.Length, fixture.initialise);
 
                 UpdateColour(colour.Red, fixture.redChannels, fixture.startChannel);
                 UpdateColour(colour.Green, fixture.greenChannels, fixture.startChannel);

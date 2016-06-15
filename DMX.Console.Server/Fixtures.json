@@ -1,47 +1,47 @@
 ﻿[
   {
+    "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 1,
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
     "startChannel": 1,
-    "channels": 7,
-    "autoPlayData": [ 255, 255, 0, 0, 0, 0, 0 ]
+    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
   },
   {
+    "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 2,
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
     "startChannel": 8,
-    "channels": 7,
-    "autoPlayData": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
   },
   {
+    "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 3,
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
     "startChannel": 16,
-    "channels": 7,
-    "autoPlayData": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
   },
   {
+    "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 4,
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
     "startChannel": 24,
-    "channels": 7,
-    "autoPlayData": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
   },
   {
+    "desc": "DMX Controlled Rotating LED mini light SL3456",
     "id": 5,
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
     "startChannel": 32,
-    "channels": 6,
-    "autoPlayData": [ 0, 0, 0, 0, 0, 0, 0 ]
+    "initialise": [ 0, 0, 0, 0, 0, 0 ]
   }
 ]
