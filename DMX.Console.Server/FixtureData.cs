@@ -14,6 +14,18 @@ namespace DMX.Server
         public uint[] id { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public byte? Red { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public byte? Green { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public byte? Blue { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public byte? White { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public byte[] data { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

@@ -21,7 +21,6 @@ namespace DMX.Server
 
         static FixtureData fixtureData;
 
-
         static Colour[] RandomColours = new Colour[]
         {
             //new Colour(255, 0,0),
