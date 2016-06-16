@@ -47,7 +47,13 @@ namespace DMX.Server
                     case "/?":
                     case "?":
                     case "-?":
+                    case "/h":
+                    case "-h":
+                    case "help":
+                    case "/help":
+                    case "-help":
                         message.Append("Usage:\n \n -r DMX Update Rate in Milliseconds");
+                        message.Append("\n -? ? /? /h -h help /help -help This help");
                         message.Append("\n -a Auto Play Timeout in seconds (0 to disable)");
                         message.Append("\n -c Cycle Modes: ");
                       
