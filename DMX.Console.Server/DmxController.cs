@@ -5,7 +5,6 @@ namespace DMX.Server
 {
     public class DmxController : Device
     {
-        Instrumentation instrumentation;
 
         const byte DMX_START_CODE = 0x7E;
         const byte DMX_END_CODE = 0xE7;
@@ -19,13 +18,14 @@ namespace DMX.Server
         const byte ENTTEC_PRO_ENABLE_API2 = 0x0D;
         const byte SET_PORT_ASSIGNMENT_LABEL = 0xCB;
 
-        readonly byte[] channelBuffer;
+        byte[] channelBuffer;
         byte[] dataPacket;
 
-        uint channels;
+        int channels;
 
+        public DmxController(uint port) : base(port) { }
 
-        public DmxController(uint port, uint channels, Instrumentation instrumentation) : base(port)
+        private void InitialiseDataStructures(int channels)
         {
             this.channels = channels;
 
@@ -33,16 +33,17 @@ namespace DMX.Server
             {
                 throw new ArgumentException("fixtures * channels per fixture must be less than or equal to 512");
             }
-            this.instrumentation = instrumentation;
 
             channelBuffer = new byte[channels + 1];  // add for for an initial control byte that must be zero
 
             byte[] dataPacket = new byte[4 + channelBuffer.Length + 1];
         }
 
-        public void InitializeOpenDMX()
+        public void InitializeDMX(int channels)
         {
             if (mvarIsOpenDMXInitialized) return;
+
+            InitialiseDataStructures(channels);
 
             Reset();
             SetBaudRate(12);
@@ -61,8 +62,8 @@ namespace DMX.Server
 
         public void UpdateChannel(uint dmxChannel, int length, byte[] data)
         {
-            if (dmxChannel < 1 || (dmxChannel + length) > channels) { return; }  // minus one to allow for the extra char added for end of array char
-            Array.Copy(data, 0, channelBuffer, dmxChannel, data.Length < length ? data.Length : length); // never copy more data than fixture length description
+            if (dmxChannel < 1 || (dmxChannel + length) > channels) { return; }
+            Array.Copy(data, 0, channelBuffer, dmxChannel, Math.Min(data.Length, length));
         }
 
         public void UpdateChannel(int dmxChannel, byte value)
@@ -114,16 +115,7 @@ namespace DMX.Server
         void WritePacket(byte[] data)
         {
             int bytesWritten = 0;
-            try
-            {
-                bytesWritten = Write(data);
-            }
-            catch (Exception ex)
-            {
-                instrumentation.ExceptionMessage = ex.Message;
-                instrumentation.Exceptions++;                
-                System.Console.WriteLine(ex.Message);
-            }
+            bytesWritten = Write(data);
         }
     }
 }

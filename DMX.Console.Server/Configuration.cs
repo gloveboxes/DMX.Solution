@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace DMX.Server
@@ -18,13 +15,10 @@ namespace DMX.Server
 
         public string MqttBroker { get; set; } = "localhost";
         public string MqttDataTopic { get; set; } = "dmx/data/#";
-        public uint Channels { get; set; } = 50;
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
         public uint AutoPlay { get; set; } = 0;
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
-        public List<FixtureDefinition> Fixtures { get; set; }
-
-        string FixtureFilename { get; set; }
+        public string FixtureFilename { get; set; }
 
         public Configuration()
         {
@@ -34,29 +28,6 @@ namespace DMX.Server
         public void Log(string messsage)
         {
             System.Console.WriteLine(messsage);
-        }
-
-        public bool LoadFixtures()
-        {
-            try
-            {
-                Fixtures = JsonConvert.DeserializeObject<List<FixtureDefinition>>(File.ReadAllText(FixtureFilename));
-
-                var fixture = (from f in Fixtures orderby f.startChannel descending select f).FirstOrDefault();
-
-                if (fixture != null)
-                {
-                    Channels = (uint)(fixture.startChannel + fixture.initialise.Length);
-                    if (Channels > 512) { Channels = 512; }
-                }
-                Log($"DMX Channels {Channels}\n\n");
-            }
-            catch (Exception ex)
-            {
-                Log("Feature Json File: " + ex.Message);
-                return false;
-            }
-            return true;
         }
 
 

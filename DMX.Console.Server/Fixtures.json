@@ -2,46 +2,51 @@
   {
     "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 1,
+    "numberOfChannels": 7,
+    "initialChannelMask": [ 255, 0, 0, 0, 0, 0, 0 ],
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
-    "startChannel": 1,
-    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "startChannel": 1
   },
   {
     "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 2,
+    "numberOfChannels": 7,
+    "initialChannelMask": [ 255, 0, 0, 0, 0, 0, 0 ],
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
-    "startChannel": 8,
-    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "startChannel": 8
   },
   {
     "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 3,
+    "numberOfChannels": 7,
+    "initialChannelMask": [ 255, 0, 0, 0, 0, 0, 0 ],
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
-    "startChannel": 16,
-    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "startChannel": 16
   },
   {
     "desc": "LED Flat SlimPar Tri 7 Light",
     "id": 4,
+    "numberOfChannels": 7,
+    "initialChannelMask": [ 255, 0, 0, 0, 0, 0, 0 ],
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
-    "startChannel": 24,
-    "initialise": [ 255, 0, 0, 0, 0, 0, 0 ]
+    "startChannel": 24
   },
   {
     "desc": "DMX Controlled Rotating LED mini light SL3456",
     "id": 5,
+    "numberOfChannels": 6,
+    "initialChannelMask": [ 0, 0, 0, 0, 0, 0, 0 ],
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
-    "startChannel": 32,
-    "initialise": [ 0, 0, 0, 0, 0, 0 ]
+    "startChannel": 32
   }
 ]

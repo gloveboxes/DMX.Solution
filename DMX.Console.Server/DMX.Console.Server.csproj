@@ -74,7 +74,8 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="DmxController.cs" />
     <Compile Include="FixtureData.cs" />
-    <Compile Include="FixtureDefinition.cs" />
+    <Compile Include="FixtureManager.cs" />
+    <Compile Include="Fixtures.cs" />
     <Compile Include="Instrumentation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

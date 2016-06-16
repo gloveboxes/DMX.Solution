@@ -2,9 +2,11 @@
 
 namespace DMX.Server
 {
-    public class FixtureDefinition
+    public class Fixtures
     {
         public int id { get; set; }
+
+        public int numberOfChannels { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public byte[] redChannels { get; set; }
@@ -22,6 +24,7 @@ namespace DMX.Server
         public uint startChannel { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public byte[] initialise { get; set; }
+        public byte[] initialChannelMask { get; set; }
+
     }
 }

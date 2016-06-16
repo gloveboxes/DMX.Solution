@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Threading;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -9,59 +8,21 @@ namespace DMX.Server
 {
     class Program
     {
-        static DmxController dmx;
         static MqttClient client;
 
         static Configuration config = new Configuration();
         static Instrumentation instrumentation = new Instrumentation();
 
         static FixtureData fixtureData;
+        static FixtureManager fixtureMgr = new FixtureManager(config, 0);
 
-        static Colour[] RandomColours = new Colour[]
-        {
-            new Colour(90, 195,0), // lime
-            new Colour(172, 0, 164), // purple
-            new Colour(255, 0,0), // red
-            new Colour(0, 185, 137), //green
-            new Colour(192, 60, 0), // copper
-            new Colour(254, 29, 0), // red
-            new Colour(0, 249, 253), // teal
-            new Colour(255, 107, 0), // orange
-            new Colour(0,0,255), // blue
-            new Colour(128, 0, 2), // crimson
-            new Colour(30,0,255), // royal blue
-            new Colour(215, 0, 103), // pink
-            new Colour(255, 125,0), // gold
-            new Colour(0, 255, 0), // green
-            new Colour(141, 0, 253), // violet
-        };
-
-        static uint NextColour;
-        static Random rndColour = new Random();
-        
         static AutoResetEvent dmxUpdateEvent = new AutoResetEvent(false);
         static Thread dmxUpdateThread = new Thread(new ThreadStart(DmxUpdate));
 
         static void Main(string[] args)
         {
-            try
-            {
-                if (!config.ParseArgs(args)) { return; }
-                if (!config.LoadFixtures()) { return; };
-
-                dmx = new DmxController(0, config.Channels, instrumentation);
-
-                config.Log("Opening DMX Controller");
-                dmx.Open();
-
-                config.Log("Initialising DMX Controller");
-                dmx.InitializeOpenDMX();
-            }
-            catch (Exception ex)
-            {
-                config.Log("Problem opening DMX Controller: " + ex.Message);
-                return;
-            }
+            if (!config.ParseArgs(args)) { return; }
+            if (!fixtureMgr.InitialiseFixtures()) { return; }
 
             dmxUpdateThread.Start();
 
@@ -101,6 +62,8 @@ namespace DMX.Server
         {
             try
             {
+                instrumentation.MessagesReceived++;
+
                 string json = System.Text.Encoding.UTF8.GetString(e.Message);
 
                 fixtureData = JsonConvert.DeserializeObject<FixtureData>(json);
@@ -113,14 +76,13 @@ namespace DMX.Server
 
                 if (fixtureData.id == null) { return; }
 
-                if (fixtureData.data == null && !DataFromRGBW(fixtureData)) { return; }
-
-                instrumentation.MessagesReceived++;
-
-                for (int id = 0; id < fixtureData.id.Length; id++)
+                if (fixtureData.data == null)
                 {
-                    var fixture = (from f in config.Fixtures where f.id == fixtureData.id[id] select f).FirstOrDefault();
-                    if (fixture != null) { dmx.UpdateChannel(fixture.startChannel, fixture.initialise.Length, fixtureData.data); }
+                    fixtureMgr.UpdateFixtureRGBW(fixtureData);
+                }
+                else
+                {
+                    fixtureMgr.UpdateFixtureData(fixtureData);
                 }
 
                 dmxUpdateEvent.Set();
@@ -129,35 +91,6 @@ namespace DMX.Server
             {
                 //   config.Log(ex.Message);
                 instrumentation.Exceptions++;
-            }
-        }
-
-        private static bool DataFromRGBW(FixtureData fixtureData)
-        {
-            if (fixtureData.red == null && fixtureData.green == null 
-                && fixtureData.red == null && fixtureData.white == null) { return false; }
-
-            var fixture = (from f in config.Fixtures where f.id == fixtureData.id[0] select f).FirstOrDefault();
-            if (fixture == null) { return false; }
-
-            fixtureData.data = new byte[fixture.initialise.Length];
-            Array.Copy(fixture.initialise, fixtureData.data, fixture.initialise.Length);
-
-            UpdateData(fixtureData, fixtureData.red, fixture.redChannels, fixture.startChannel);
-            UpdateData(fixtureData, fixtureData.green, fixture.greenChannels, fixture.startChannel);
-            UpdateData(fixtureData, fixtureData.blue, fixture.blueChannels, fixture.startChannel);
-            UpdateData(fixtureData, fixtureData.white, fixture.whiteChannels, fixture.startChannel);
-
-            return true;
-        }
-
-        static void UpdateData(FixtureData fixtureData, byte? colour, byte[] channels, uint startChannel)
-        {
-            if (colour == null) { return; }
-            foreach (var channel in channels)
-            {
-                if (channel < 1 || channel > fixtureData.data.Length) { continue; }
-                fixtureData.data[channel - 1] = (byte)colour; // zero base the chn index
             }
         }
 
@@ -173,47 +106,6 @@ namespace DMX.Server
             }
         }
 
-        static void RandomColour(Configuration.CycleMode mode)
-        {
-            Colour colour = null;
-
-            if (mode == Configuration.CycleMode.synced)
-            {
-                colour = RandomColours[NextColour++ % RandomColours.Length];
-            }
-
-
-            foreach (var fixture in config.Fixtures)
-            {
-                switch (mode)
-                {
-                    case Configuration.CycleMode.sequential:
-                        colour = RandomColours[NextColour++ % RandomColours.Length];
-                        break;
-                    case Configuration.CycleMode.random:
-                        colour = new Colour((byte)rndColour.Next(0, 255), (byte)rndColour.Next(0, 255), (byte)rndColour.Next(0, 255));
-                        break;
-                    default:
-                        break;
-                }
-
-                dmx.UpdateChannel(fixture.startChannel, fixture.initialise.Length, fixture.initialise);
-
-                UpdateColour(colour.Red, fixture.redChannels, fixture.startChannel);
-                UpdateColour(colour.Green, fixture.greenChannels, fixture.startChannel);
-                UpdateColour(colour.Blue, fixture.blueChannels, fixture.startChannel);
-            }
-        }
-
-        private static void UpdateColour(byte colour, byte[] channels, uint startChannel)
-        {
-            if (channels == null) { return; }
-            foreach (var channel in channels)
-            {
-                dmx.UpdateChannel((int)(startChannel + channel - 1), colour);
-            }
-        }
-
         static void DmxUpdate()
         {
             while (true)
@@ -222,18 +114,18 @@ namespace DMX.Server
                 if (config.AutoPlay == 0)
                 {
                     dmxUpdateEvent.WaitOne();
-                    dmx.DmxUpdate();
+                    fixtureMgr.DmxUpdate();
                 }
                 else
                 {
                     if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlay), false))
                     {
-                        dmx.DmxUpdate();
+                        fixtureMgr.DmxUpdate();
                     }
                     else
                     {
-                        RandomColour(config.AutoPlayCycleMode);
-                        dmx.DmxUpdate();
+                        fixtureMgr.RandomColour(config.AutoPlayCycleMode);
+                        fixtureMgr.DmxUpdate();
                     }
                 }
 
