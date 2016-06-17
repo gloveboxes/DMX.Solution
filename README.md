@@ -24,7 +24,7 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
 
 The client just specifies the colours required. This colours are mapped server side to the correct DMX Channels. See fixtures.json.
 
-This example would send Red and Green colour information to the DMX Controller that would map the colour data to the right DMX channel on the fixture.
+This example would send Red and Green colour information to fixtures 1, 4, and 8. The DMX Server maps the colour data to the correct DMX channel. This makes is simple for a client to send  colour information to a fixture without being concerned about the channel mappings for the fixture.
 
     {"id":[1,4,8],"Red":200,"Green":150}
     
@@ -35,7 +35,7 @@ This example would send Red and Green colour information to the DMX Controller t
     {"id":[1],"Red"255}
     
 
-###Imperative mode. The client sends DMX data that is positional (ie maps to a DMX Channel) plus the DMX channel value.
+###Imperative mode. The client sends DMX data values that corrospond to the channels on the fixture. The DMX Server maps this data for fixtures 1, 2, and 3. This allows full control of the fixture capabilites such as rotate and strobe effects.  
 
 This example would send the channel data (base 64 encoded) to fixtures 1,2 and 3 as defined in the DMX Server side fixtures.json definition file.
 
@@ -62,8 +62,7 @@ File: fixture.json
         "initialChannelMask": [ 255, 0, 0, 0, 0, 0, 0 ],
         "redChannels": [ 2 ],
         "greenChannels": [ 3 ],
-        "blueChannels": [ 4 ],
-        
+        "blueChannels": [ 4 ],        
     },
     {
         "desc": "DMX Controlled Rotating LED mini light SL3456",
@@ -73,8 +72,7 @@ File: fixture.json
         "initialChannelMask": [ 0, 0, 0, 0, 0, 0, 0 ],
         "redChannels": [ 2 ],
         "greenChannels": [ 3 ],
-        "blueChannels": [ 4 ],
-       
+        "blueChannels": [ 4 ],       
     }
     ]
 
