@@ -11,8 +11,8 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
     - Follow the [Mosquitto Debian repository](http://mosquitto.org/2013/01/mosquitto-debian-repository/) for installing Moquiotto on Raspbian.  
     
 ##Tested Platforms
-1. Windows
-2. Raspbian running Mono
+1. Windows (7,8 and 10)
+2. Raspbian with Mono
 
 ##DMX Hardware
 1. [ENTTEC DMX USB PRO Mk2](http://www.enttec.com/?main_menu=Products&pn=70314). 
