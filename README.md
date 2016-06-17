@@ -10,9 +10,9 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
     - MQTT Queue support on [Mosquiotto](http://mosquitto.org/) for local or Aure IoT Hub for internet scale queue services
     - Follow the [Mosquitto Debian repository](http://mosquitto.org/2013/01/mosquitto-debian-repository/) for installing Moquiotto on Raspbian.  
     
-##Tested Platforms
+##Tested Platforms (June 2016)
 1. Windows (7,8 and 10)
-2. Raspbian with Mono
+2. Raspbian (Raspbian Jessie Kernel 4.4) with Mono
 
 ##DMX Hardware
 1. [ENTTEC DMX USB PRO Mk2](http://www.enttec.com/?main_menu=Products&pn=70314). 
