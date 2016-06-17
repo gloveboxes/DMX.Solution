@@ -35,14 +35,18 @@ This example would send Red and Green colour information to fixtures 1, 4, and 8
     {"id":[1],"Red"255}
     
 
-###Imperative mode. The client sends DMX data values that corrospond to the channels on the fixture. The DMX Server maps this data for fixtures 1, 2, and 3. This allows full control of the fixture capabilites such as rotate and strobe effects.  
+###Imperative mode. 
+
+The client sends DMX data values that corrospond to the channels on the fixture. The DMX Server maps this data for fixtures 1, 2, and 3. This allows full control of the fixture capabilites such as rotate and strobe effects.  
 
 This example would send the channel data (base 64 encoded) to fixtures 1,2 and 3 as defined in the DMX Server side fixtures.json definition file.
 
 
     {"id":[1,2,3], data:[ABNHK/K]}  
 
-###Control mode. Allows the client to send a command to the DMX Server. For example request runtime statistics.
+###Control mode. 
+
+Allows the client to request DMX Server information. For example request runtime statistics.
 
 Example
 
