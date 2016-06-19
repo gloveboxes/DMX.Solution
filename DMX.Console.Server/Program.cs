@@ -101,6 +101,11 @@ namespace DMX.Server
                 case "stats":
                     instrumentation.Publish();
                     break;
+                case "high":
+                case "medium":
+                case "low":
+                    config.SetIntensity(command);
+                    break;
                 default:
                     break;
             }

@@ -7,10 +7,15 @@ namespace DMX.Server
 {
     public class Instrumentation
     {
+
+
         const string MqttTopic = "dmx/status";
         private ulong messagesReceived;
 
         private MqttClient client;
+
+        public DateTime StartupTime = DateTime.Now;
+
         public DateTime Time { get { return DateTime.Now; }}
         public uint DmxSentCount { get; set; } 
         public ulong MessagesReceived
