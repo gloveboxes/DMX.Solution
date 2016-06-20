@@ -4,11 +4,13 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
 
 ##Architecture 
 
-1. DMX Server
-2. DMX Client
+1. DMX Server - Dequeues json colour messages and references Fixtures.json to format data for the ENTTEC DMX Controller 
+2. DMX Client - Anything that can publish a json colour record
 3. Middleware MQTT Pub/Sub queue for many DMX clients to one DMX Server or many DMX clients to many DMX Servers
     - MQTT Queue support on [Mosquiotto](http://mosquitto.org/) for local or Aure IoT Hub for internet scale queue services
     - Follow the [Mosquitto Debian repository](http://mosquitto.org/2013/01/mosquitto-debian-repository/) for installing Moquiotto on Raspbian.  
+    
+![Architecture](https://raw.githubusercontent.com/gloveboxes/DMX.Solution/master/Resources/Architecture.jpg)
     
 ##Tested Platforms (June 2016)
 1. Windows (7,8 and 10)
@@ -42,7 +44,7 @@ The client sends DMX data values that corrospond to the channels on the fixture.
 This example would send the channel data (base 64 encoded) to fixtures 1,2 and 3 as defined in the DMX Server side fixtures.json definition file.
 
 
-    {"id":[1,2,3], data:[ABNHK/K]}  
+    {"id":[1,2,3],"data":"/6T1AAAAAA=="}
 
 ###Control mode. 
 
