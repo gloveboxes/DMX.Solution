@@ -1,0 +1,11 @@
+[Unit]
+Description=DMX Control Service
+
+[Service]
+ExecStart=/home/pi/scripts/startdmx.sh
+Type=oneshot
+RemainAfterExit=yes
+User=pi
+
+[Install]
+WantedBy=multi-user.target

@@ -6,7 +6,7 @@ namespace DMX.Client.Fixtures
     class ParTri7 : IFixture
     {
         const int ChannelsPerFixture = 6;
-        public uint[] id { get; set; } = new uint[] { 1, 3 };
+        public uint[] id { get; set; } = new uint[] { 1, 2, 3, 4 };
         public byte[] data { get; } = new byte[ChannelsPerFixture];
 
 
