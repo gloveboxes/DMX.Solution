@@ -23,16 +23,19 @@ namespace DMX.Server
 
         public string MqttBroker { get; set; } = "localhost";
         public string MqttDataTopic { get; set; } = "dmx/data/#";
+
+        public string MqttStatusTopic = "dmx/status";
+
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
         public uint AutoPlay { get; set; } = 0;
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
 
         public Intensity LightIntensity = Intensity.high;
-        public string FixtureFilename { get; set; }
+        public string UniverseFilename { get; set; }
 
         public Configuration()
         {
-            FixtureFilename = AppDomain.CurrentDomain.BaseDirectory + "fixtures.json";
+            UniverseFilename = AppDomain.CurrentDomain.BaseDirectory + "universe.json";
         }
 
         public void Log(string messsage)
@@ -106,6 +109,7 @@ namespace DMX.Server
                         message.Append("\n -f full path and file name of fixture json file");
                         message.Append("\n -b Mqtt Broker Address (default is localhost)");
                         message.Append("\n -t Mqtt Topic to subscribe to for DMX Data Messages (default is dmx/data/# )");
+                        message.Append("\n -s Mqtt Topic for DMX Status (default is dmx/status )");
 
                         Log(message.ToString());
 
@@ -172,7 +176,7 @@ namespace DMX.Server
                         if (a + 1 < args.Length)
                         {
                             fixtureFilename = args[a + 1];
-                            if (File.Exists(fixtureFilename)) { FixtureFilename = fixtureFilename; }
+                            if (File.Exists(fixtureFilename)) { UniverseFilename = fixtureFilename; }
                             else
                             {
                                 Log($"{fixtureFilename} not found");
@@ -192,6 +196,12 @@ namespace DMX.Server
                             MqttDataTopic = args[a + 1];
                         }
                         break;
+                    case "-s":
+                        if (a + 1 < args.Length)
+                        {
+                            MqttStatusTopic = args[a + 1];
+                        }
+                        break;
 
                 }
             }
@@ -203,7 +213,9 @@ namespace DMX.Server
             message.Append($"\nAuto Play Light Level Intensity is {Colour.Intensity.ToString()}");
             message.Append($"\nCycle Mode {AutoPlayCycleMode.ToString()}");
             message.Append($"\nMqtt Broker Address {MqttBroker}");
-            message.Append($"\nMqtt DMX Data Subscribe Topic {MqttDataTopic}");
+            message.Append($"\nMqtt DMX Data Topic {MqttDataTopic}");
+            message.Append($"\nMqtt DMX Status Topic {MqttStatusTopic}");
+
 
             Log(message.ToString());
 

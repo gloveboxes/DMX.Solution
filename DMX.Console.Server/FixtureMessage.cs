@@ -2,9 +2,8 @@
 
 namespace DMX.Server
 {
-    public class FixtureData
-    {
-       
+    public class FixtureMessage
+    {       
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public uint[] id { get; set; }
 
@@ -21,10 +20,12 @@ namespace DMX.Server
         public byte? white { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public byte? strobe { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public byte[] data { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string command { get; set; }
-
     }
 }

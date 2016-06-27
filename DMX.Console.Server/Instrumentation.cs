@@ -8,11 +8,10 @@ namespace DMX.Server
     public class Instrumentation
     {
 
-
-        const string MqttTopic = "dmx/status";
         private ulong messagesReceived;
 
         private MqttClient client;
+        private Configuration config;
 
         public DateTime StartupTime = DateTime.Now;
 
@@ -28,6 +27,11 @@ namespace DMX.Server
                     Publish();
                 }
             }
+        }
+
+        public Instrumentation(Configuration config)
+        {
+            this.config = config;
         }
 
         public void SetMqttClient(MqttClient client)
@@ -61,7 +65,7 @@ namespace DMX.Server
             {
                 if (client != null && client.IsConnected)
                 {
-                    client.Publish($"{MqttTopic}", this.ToJson());
+                    client.Publish($"{config.MqttStatusTopic}", this.ToJson());
                 }
             }
             catch { Exceptions++; }

@@ -11,10 +11,10 @@ namespace DMX.Server
         static MqttClient client;
 
         static Configuration config = new Configuration();
-        static Instrumentation instrumentation = new Instrumentation();
+        static Instrumentation instrumentation = new Instrumentation(config);
 
-        static FixtureData fixtureData;
-        static FixtureManager fixtureMgr = new FixtureManager(config, 0);
+        static FixtureMessage fixtureMsg;
+        static Universe universe = new Universe(config, 0);
 
         static AutoResetEvent dmxUpdateEvent = new AutoResetEvent(false);
         static Thread dmxUpdateThread = new Thread(new ThreadStart(DmxUpdate));
@@ -22,7 +22,7 @@ namespace DMX.Server
         static void Main(string[] args)
         {
             if (!config.ParseArgs(args)) { return; }
-            if (!fixtureMgr.InitialiseFixtures()) { return; }
+            if (!universe.InitialiseUniverse()) { return; }
 
             dmxUpdateThread.Start();
 
@@ -66,23 +66,23 @@ namespace DMX.Server
 
                 string json = System.Text.Encoding.UTF8.GetString(e.Message);
 
-                fixtureData = JsonConvert.DeserializeObject<FixtureData>(json);
+                fixtureMsg = JsonConvert.DeserializeObject<FixtureMessage>(json);
 
-                if (!string.IsNullOrEmpty(fixtureData.command))
+                if (!string.IsNullOrEmpty(fixtureMsg.command))
                 {
-                    ProcessCommand(fixtureData.command);
+                    ProcessCommand(fixtureMsg.command);
                     return;
                 }
 
-                if (fixtureData.id == null) { return; }
+                if (fixtureMsg.id == null) { return; }
 
-                if (fixtureData.data == null)
+                if (fixtureMsg.data == null)
                 {
-                    fixtureMgr.UpdateFixtureRGBW(fixtureData);
+                    universe.UpdateFixtureChannels(fixtureMsg);
                 }
                 else
                 {
-                    fixtureMgr.UpdateFixtureData(fixtureData);
+                    universe.UpdateFixtureData(fixtureMsg);
                 }
 
                 dmxUpdateEvent.Set();
@@ -119,18 +119,18 @@ namespace DMX.Server
                 if (config.AutoPlay == 0)
                 {
                     dmxUpdateEvent.WaitOne();
-                    fixtureMgr.DmxUpdate();
+                    universe.DmxUpdate();
                 }
                 else
                 {
                     if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlay), false))
                     {
-                        fixtureMgr.DmxUpdate();
+                        universe.DmxUpdate();
                     }
                     else
                     {
-                        fixtureMgr.RandomColour(config.AutoPlayCycleMode);
-                        fixtureMgr.DmxUpdate();
+                        universe.RandomColour(config.AutoPlayCycleMode);
+                        universe.DmxUpdate();
                     }
                 }
 

@@ -73,16 +73,16 @@
     <Compile Include="Colour.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DmxController.cs" />
-    <Compile Include="FixtureData.cs" />
-    <Compile Include="FixtureManager.cs" />
-    <Compile Include="Fixtures.cs" />
+    <Compile Include="FixtureMessage.cs" />
+    <Compile Include="Universe.cs" />
+    <Compile Include="Fixture.cs" />
     <Compile Include="Instrumentation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="fixtures.json">
+    <None Include="universe.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace DMX.Server
 {
-    public class FixtureManager : DmxController
+    public class Universe : DmxController
     {
-        List<Fixtures> fixtures;
+        List<Fixture> universe;
         int channels;
         Configuration config;
 
@@ -38,17 +38,17 @@ namespace DMX.Server
 
         #endregion
 
-        public FixtureManager(Configuration config, uint DmxPort) : base(DmxPort)
+        public Universe(Configuration config, uint DmxPort) : base(DmxPort)
         {
             this.config = config;
         }
 
-        public bool InitialiseFixtures()
+        public bool InitialiseUniverse()
         {
             try
             {
-                config.Log("Loading Fixtures");
-                LoadFixtures();
+                config.Log("Loading Universe");
+                LoadUniverse();
 
                 config.Log("Opening DMX Controller");
                 Open();
@@ -68,18 +68,18 @@ namespace DMX.Server
 
         void SetFixtureMasks()
         {
-            foreach (var fixture in fixtures)
+            foreach (var fixture in universe)
             {
                 UpdateChannel(fixture.startChannel, fixture.numberOfChannels, fixture.initialChannelMask);
             }
             DmxUpdate();
         }
 
-        public void LoadFixtures()
+        public void LoadUniverse()
         {
-            fixtures = JsonConvert.DeserializeObject<List<Fixtures>>(File.ReadAllText(config.FixtureFilename));
+            universe = JsonConvert.DeserializeObject<List<Fixture>>(File.ReadAllText(config.UniverseFilename));
 
-            var fixture = (from f in fixtures orderby f.startChannel descending select f).FirstOrDefault();
+            var fixture = (from f in universe orderby f.startChannel descending select f).FirstOrDefault();
 
             if (fixture != null)
             {
@@ -89,41 +89,42 @@ namespace DMX.Server
             config.Log($"DMX Channels {channels}\n\n");
         }
 
-        public void UpdateFixtureRGBW(FixtureData fixtureData)
+        public void UpdateFixtureChannels(FixtureMessage fixtureMsg)
         {
-            if (fixtureData.red == null && fixtureData.green == null
-                && fixtureData.red == null && fixtureData.white == null) { return; }
+            if (fixtureMsg.red == null && fixtureMsg.green == null
+                && fixtureMsg.red == null && fixtureMsg.white == null) { return; }
 
-            foreach (var id in fixtureData.id)
+            foreach (var id in fixtureMsg.id)
             {
-                var fixture = (from f in fixtures where f.id == id select f).FirstOrDefault();
+                var fixture = (from f in universe where f.fixtureId == id select f).FirstOrDefault();
                 if (fixture == null) { return; }
 
-                UpdateColour(fixtureData.red, fixture.redChannels, fixture);
-                UpdateColour(fixtureData.green, fixture.greenChannels, fixture);
-                UpdateColour(fixtureData.blue, fixture.blueChannels, fixture);
-                UpdateColour(fixtureData.white, fixture.whiteChannels, fixture);
+                UpdateChannelData(fixtureMsg.red, fixture.redChannels, fixture);
+                UpdateChannelData(fixtureMsg.green, fixture.greenChannels, fixture);
+                UpdateChannelData(fixtureMsg.blue, fixture.blueChannels, fixture);
+                UpdateChannelData(fixtureMsg.white, fixture.whiteChannels, fixture);
+                UpdateChannelData(fixtureMsg.strobe, fixture.strobeChannels, fixture);
             }
         }
 
 
-        public void UpdateFixtureData(FixtureData fixtureData)
+        public void UpdateFixtureData(FixtureMessage fixtureMsg)
         {
-            foreach (var id in fixtureData.id)
+            foreach (var id in fixtureMsg.id)
             {
-                var fixture = (from f in fixtures where f.id == id select f).FirstOrDefault();
-                if (fixture != null) { UpdateChannel(fixture.startChannel, fixture.numberOfChannels, fixtureData.data); }
+                var fixture = (from f in universe where f.fixtureId == id select f).FirstOrDefault();
+                if (fixture != null) { UpdateChannel(fixture.startChannel, fixture.numberOfChannels, fixtureMsg.data); }
             }
         }
 
-        private void UpdateColour(byte? colour, byte[] channels, Fixtures fixture)
+        private void UpdateChannelData(byte? data, byte[] channels, Fixture fixture)
         {
-            if (colour == null || channels == null || fixture.startChannel < 1) { return; }
+            if (data == null || channels == null || fixture.startChannel < 1) { return; }
 
             foreach (var channel in channels)
             {
                 if (channel > fixture.numberOfChannels) { continue; }
-                UpdateChannel((int)(fixture.startChannel + channel - 1), (byte)colour);
+                UpdateChannel((int)(fixture.startChannel + channel - 1), (byte)data);
             }
         }
 
@@ -136,7 +137,7 @@ namespace DMX.Server
                 colour = RandomColours[NextColour++ % RandomColours.Length];
             }
 
-            foreach (var fixture in fixtures)
+            foreach (var fixture in universe)
             {
                 switch (mode)
                 {
@@ -150,9 +151,9 @@ namespace DMX.Server
                         break;
                 }
 
-                UpdateColour(colour.Red, fixture.redChannels, fixture);
-                UpdateColour(colour.Green, fixture.greenChannels, fixture);
-                UpdateColour(colour.Blue, fixture.blueChannels, fixture);
+                UpdateChannelData(colour.Red, fixture.redChannels, fixture);
+                UpdateChannelData(colour.Green, fixture.greenChannels, fixture);
+                UpdateChannelData(colour.Blue, fixture.blueChannels, fixture);
             }
         }
     }
