@@ -92,7 +92,8 @@ namespace DMX.Server
         public void UpdateFixtureChannels(FixtureMessage fixtureMsg)
         {
             if (fixtureMsg.red == null && fixtureMsg.green == null
-                && fixtureMsg.red == null && fixtureMsg.white == null) { return; }
+                && fixtureMsg.blue == null && fixtureMsg.white == null &&
+                fixtureMsg.strobe == null) { return; }
 
             foreach (var id in fixtureMsg.id)
             {
