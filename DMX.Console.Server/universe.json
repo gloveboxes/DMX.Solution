@@ -43,10 +43,21 @@
     "desc": "DMX Controlled Rotating LED mini light SL3456",
     "fixtureId": 5,
     "numberOfChannels": 6,
-    "initialChannelMask": [ 0, 0, 0, 0, 0, 0, 0 ],
+    "initialChannelMask": [ 0, 0, 0, 0, 0, 0],
     "redChannels": [ 2 ],
     "greenChannels": [ 3 ],
     "blueChannels": [ 4 ],
     "startChannel": 32
+  },
+  {
+    "desc": "LED PAR 12 RGBW Light",
+    "fixtureId": 6,
+    "numberOfChannels": 8,
+    "initialChannelMask": [ 0, 0, 0, 255, 0, 0, 0, 0 ],
+    "redChannels": [ 5 ],
+    "greenChannels": [ 6 ],
+    "blueChannels": [ 7 ],
+    "whiteChannels": [ 8 ],
+    "startChannel": 38
   }
 ]

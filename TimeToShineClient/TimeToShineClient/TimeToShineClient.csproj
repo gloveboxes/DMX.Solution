@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="Glue\ProjectGlue.cs" />
     <Compile Include="Model\Contract\IMQTTService.cs" />
+    <Compile Include="Model\Entity\GenericRGBW.cs" />
     <Compile Include="Model\Entity\IFixture.cs" />
     <Compile Include="Model\Entity\ParTri7.cs" />
     <Compile Include="Model\Entity\SL3456.cs" />

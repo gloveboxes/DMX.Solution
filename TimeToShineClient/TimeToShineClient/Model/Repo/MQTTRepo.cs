@@ -18,7 +18,7 @@ namespace TimeToShineClient.Model.Repo
         private string _dmxChannel = "1";
         MqttClient client;
         //    Colour latestColour = new Colour();
-        IFixture latestColour = new ParTri7();
+        IFixture latestColour = new GenericRGBW();
 
         const int publishCycleTime = 100;
         AutoResetEvent publishEvent = new AutoResetEvent(false);
@@ -48,7 +48,7 @@ namespace TimeToShineClient.Model.Repo
 
             if (_mqttTopic == null)
             {
-                _configService.MqttTopic = "msstore/vivid/light/";
+                _configService.MqttTopic = "dmx/data";
                 _mqttTopic = _configService.MqttTopic;
             }
         }

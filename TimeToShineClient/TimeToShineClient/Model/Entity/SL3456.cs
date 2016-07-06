@@ -16,7 +16,7 @@ namespace TimeToShineClient.Model.Entity
             data[channel] = value;
         }
 
-        public void SetRgb(byte red, byte green, byte blue)
+        public void SetRgb(byte red, byte green, byte blue, byte white = 0)
         {
             data[1] = red;
             data[2] = green;
@@ -28,7 +28,7 @@ namespace TimeToShineClient.Model.Entity
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
         }
 
-        public bool IsSame(byte red, byte green, byte blue)
+        public bool IsSame(byte red, byte green, byte blue, byte white = 0)
         {
             return red == data[1] && green == data[2] && blue == data[3];
         }

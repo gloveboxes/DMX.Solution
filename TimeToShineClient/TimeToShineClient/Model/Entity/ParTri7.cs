@@ -16,7 +16,7 @@ namespace TimeToShineClient.Model.Entity
             data[channel] = value;
         }
 
-        public void SetRgb(byte red, byte green, byte blue)
+        public void SetRgb(byte red, byte green, byte blue, byte white = 0)
         {
             data[0] = 255; // max brightness
             data[1] = red;
@@ -25,7 +25,7 @@ namespace TimeToShineClient.Model.Entity
         }
 
 
-        public bool IsSame(byte red, byte green, byte blue)
+        public bool IsSame(byte red, byte green, byte blue, byte white = 0)
         {
             return red == data[1] && green == data[2] && blue == data[3];
         }
