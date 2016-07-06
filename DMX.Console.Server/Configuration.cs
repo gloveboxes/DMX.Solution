@@ -75,7 +75,7 @@ namespace DMX.Server
             uint dmxUpdateRateMilliseconds, autoPlay = 0;
             CycleMode cycleMode;
             Intensity intensity;
-            string fixtureFilename = string.Empty;
+            string universeFilename = string.Empty;
 
             // -c 50 -r 25 -a 5 -s random -f 
 
@@ -106,7 +106,7 @@ namespace DMX.Server
                             message.Append(name + " ");
                         }
 
-                        message.Append("\n -f full path and file name of fixture json file");
+                        message.Append("\n -u full path and file name of universe.json file");
                         message.Append("\n -b Mqtt Broker Address (default is localhost)");
                         message.Append("\n -t Mqtt Topic to subscribe to for DMX Data Messages (default is dmx/data/# )");
                         message.Append("\n -s Mqtt Topic for DMX Status (default is dmx/status )");
@@ -172,14 +172,14 @@ namespace DMX.Server
                             }
                         }
                         break;
-                    case "-f":
+                    case "-u":
                         if (a + 1 < args.Length)
                         {
-                            fixtureFilename = args[a + 1];
-                            if (File.Exists(fixtureFilename)) { UniverseFilename = fixtureFilename; }
+                            universeFilename = args[a + 1];
+                            if (File.Exists(universeFilename)) { UniverseFilename = universeFilename; }
                             else
                             {
-                                Log($"{fixtureFilename} not found");
+                                Log($"{universeFilename} not found");
                                 return false;
                             }
                         }
@@ -207,7 +207,7 @@ namespace DMX.Server
             }
 
 
-            message.Append("\n\nNew defaults:");
+            message.Append("\n\nSettings\n");
             message.Append($"\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds}");
             message.Append($"\nAuto Play {AutoPlay} seconds");
             message.Append($"\nAuto Play Light Level Intensity is {Colour.Intensity.ToString()}");
@@ -215,6 +215,7 @@ namespace DMX.Server
             message.Append($"\nMqtt Broker Address {MqttBroker}");
             message.Append($"\nMqtt DMX Data Topic {MqttDataTopic}");
             message.Append($"\nMqtt DMX Status Topic {MqttStatusTopic}");
+            message.Append($"\nUniverse definition path and file name {UniverseFilename}");
 
 
             Log(message.ToString());
