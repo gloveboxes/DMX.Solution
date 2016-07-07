@@ -4,8 +4,9 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
 
 ##Architecture 
 
-1. DMX Server - Dequeues json colour messages and references Fixtures.json to format data for the ENTTEC DMX Controller 
-2. DMX Client - Anything that can publish a json colour message
+
+1. DMX Client - Anything that can publish a json colour message
+2. DMX Server - Dequeues json colour messages and references Universe.json to format data for the ENTTEC DMX Controller 
 3. Middleware MQTT Pub/Sub queue for many DMX clients to one DMX Server or many DMX clients to many DMX Servers
     - MQTT Queue support on [Mosquiotto](http://mosquitto.org/) for local or Aure IoT Hub for internet scale queue services
     - Follow the [Mosquitto Debian repository](http://mosquitto.org/2013/01/mosquitto-debian-repository/) for installing Moquiotto on Raspbian.  
