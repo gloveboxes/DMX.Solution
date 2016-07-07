@@ -14,6 +14,9 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
 ![Architecture](https://raw.githubusercontent.com/gloveboxes/DMX.Solution/master/Resources/Architecture.jpg)
     
 ##Tested Platforms (June 2016)
+
+The DMX Server has been tested on the following platforms: -
+
 1. Windows (7,8 and 10)
 2. Raspbian Jessie, Kernel 4.4 with [Mono](https://en.wikipedia.org/wiki/Mono_(software))
 
