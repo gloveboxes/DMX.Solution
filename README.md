@@ -28,7 +28,7 @@ The DMX Server has been tested on the following platforms: -
 
 ###Declariative mode. 
 
-The client just specifies the colours required. This colours are mapped server side to the correct DMX Channels. See fixtures.json.
+The client just specifies the colours required. This colours are mapped server side to the correct DMX Channels. See universe.json.
 
 This example would send Red and Green colour information to fixtures 1, 4, and 8. The DMX Server maps the colour data to the correct DMX channel. This makes is simple for a client to send  colour information to a fixture without being concerned about the channel mappings for the fixture.
 
