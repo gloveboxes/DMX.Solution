@@ -22,7 +22,7 @@ The DMX Server has been tested on the following platforms: -
 
 ##DMX Hardware
 1. [ENTTEC DMX USB PRO Mk2](http://www.enttec.com/?main_menu=Products&pn=70314). 
-2. [ENTTEC DMX Driver](http://www.ftdichip.com/Drivers/D2XX.htm). Very stable on Windows and Raspbian (as at June, 2016)
+2. [ENTTEC DMX Driver](http://www.ftdichip.com/Drivers/D2XX.htm). Very stable on Windows and Raspbian (as at June, 2016). For Raspberry Pi 2 & 3 use the ARM V7 driver, for Raspberry Pi Zero use the ARM V6. The automated setup installs the V7 driver.
 
 ##Client JSON Messages
 
