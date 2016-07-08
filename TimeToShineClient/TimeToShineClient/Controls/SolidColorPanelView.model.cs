@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using TimeToShineClient.Model.Contract;
 using TimeToShineClient.Model.Entity;
+using TimeToShineClient.Model.Messages;
+using XamlingCore.Portable.Messages.XamlingMessenger;
 using XamlingCore.Portable.View.ViewModel;
 
 namespace TimeToShineClient.Controls
@@ -23,6 +25,7 @@ namespace TimeToShineClient.Controls
 
         public void MousedIn()
         {
+            new SpecialColorSelectedMessage(_colour).Send();
             _colorService.PublishSpecialSampleColor(_colour.SpecialCode);
         }
 

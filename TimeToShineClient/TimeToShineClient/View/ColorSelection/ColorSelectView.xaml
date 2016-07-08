@@ -12,8 +12,9 @@
     <Grid 
           x:Name="colorSpectrum">
 
+        
 
-        <ItemsControl ItemsSource="{x:Bind ViewModel.Colours, Mode=OneWay}" >
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Colours, Mode=OneWay}" Margin="0,250,0,0" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"></StackPanel>
@@ -31,21 +32,15 @@
             VerticalAlignment="Top" 
             HorizontalAlignment="Right" Width="600" Height="600" />
 
-        <controls:ExplainerControlView
-            Visibility="{x:Bind ViewModel.AttractRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" 
-            VerticalAlignment="Center" 
-            HorizontalAlignment="Center" Width="300" Height="300"  IsRunning="{x:Bind ViewModel.AttractRunning, Mode=OneWay}" />
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="250">
+            <Border.Background>
+               <SolidColorBrush Color="{Binding Brush}"></SolidColorBrush>
+            </Border.Background>
 
-
-        <controls:SubmitControlView
-            Visibility="{x:Bind ViewModel.ColorSelectRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" 
-            VerticalAlignment="Bottom"  StartSaveCommand="{x:Bind ViewModel.StartSaveCommand}"
-            HorizontalAlignment="Right" Width="150" Height="150" Margin="25,25,25,25"  IsRunning="{x:Bind ViewModel.ColorSelectRunning, Mode=OneWay}" />
-
-        <controls:DataEntryControlView
-            Visibility="{x:Bind ViewModel.SaveRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" 
-            VerticalAlignment="Center" SaveCommand="{x:Bind ViewModel.SaveCommand}"
-            HorizontalAlignment="Center" Width="500" Height="500"  IsRunning="{x:Bind ViewModel.SaveRunning, Mode=OneWay}" />
+        </Border>
+        
+        
+      
         
         <controls:SettingsControlView
              Visibility="{x:Bind ViewModel.SettingsRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" Width="500" Height="500"

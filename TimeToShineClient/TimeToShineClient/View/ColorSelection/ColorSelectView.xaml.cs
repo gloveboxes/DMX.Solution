@@ -56,7 +56,7 @@ namespace TimeToShineClient.View.ColorSelection
 
            // Debug.WriteLine(colorString);
 
-            ViewModel.SetColor(h);
+           // ViewModel.SetColor(h);
 
             //var specPoint = Math.Round(py, MidpointRounding.AwayFromZero);
 

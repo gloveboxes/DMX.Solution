@@ -28,7 +28,8 @@ namespace TimeToShineClient.View.ColorSelection
         private readonly IColorService _colorService;
         private readonly IConfigService _configService;
 
-        SolidColorBrush _brush = new SolidColorBrush(Colors.White);
+        private Color _brush = Colors.Transparent;
+
 
         public ICommand SaveCommand { get; set; }
         public ICommand StartSaveCommand { get; set; }
@@ -71,13 +72,24 @@ namespace TimeToShineClient.View.ColorSelection
             StartSaveCommand = new XCommand(_onStartSave);
             SaveSettingsCommand = new XCommand(_saveSettings);
             CancelSettingsCommand = new XCommand(_cancelSettings);
-            _attractTimer();
+          //  _attractTimer();
             this.Register<ResetMessage>(_onReset);
             this.Register<SettingsMessage>(_onSettings);
             this.Register<DebugMessage>(_onDebugMessage);
 
+            this.Register<SpecialColorSelectedMessage>(_onSpecialColorSelected);
 
+        }
 
+        void _onSpecialColorSelected(object message)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var m = message as SpecialColorSelectedMessage;
+
+                Brush = m.Color.Color;
+            });
+          
         }
 
 
@@ -209,22 +221,22 @@ namespace TimeToShineClient.View.ColorSelection
 
         async void _onSave()
         {
-            var c = Brush.Color;
+            //var c = Brush.Color;
 
-            var uc = new UserColor
-            {
-                Red = c.R,
-                Green = c.G,
-                Blue = c.B,
-                ColorName = ColorName,
-                SubmitterName = FirstName
-            };
+            //var uc = new UserColor
+            //{
+            //    Red = c.R,
+            //    Green = c.G,
+            //    Blue = c.B,
+            //    ColorName = ColorName,
+            //    SubmitterName = FirstName
+            //};
 
-            _colorService.SaveColorToServer(uc);
+            //_colorService.SaveColorToServer(uc);
 
-            await Task.Delay(10000);
+            //await Task.Delay(10000);
 
-            StartAttract();
+            //StartAttract();
         }
 
         public override void OnInitialise()
@@ -327,33 +339,33 @@ namespace TimeToShineClient.View.ColorSelection
             StopColorSelect();
             StopSave();
             AttractRunning = true;
-            _chase();
+           // _chase();
         }
 
-        async void _chase()
-        {
-            while (AttractRunning)
-            {
-                await Task.Delay(20);
-                _chaseColor++;
-                var h = ColorUtils.FromHsv(_chaseColor, 1f, 1f);
-                Brush = new SolidColorBrush(h);
-            }
-        }
+        //async void _chase()
+        //{
+        //    while (AttractRunning)
+        //    {
+        //        await Task.Delay(20);
+        //        _chaseColor++;
+        //        var h = ColorUtils.FromHsv(_chaseColor, 1f, 1f);
+        //        Brush = new SolidColorBrush(h);
+        //    }
+        //}
 
         public void StopAttract()
         {
             AttractRunning = false;
         }
 
-        public void SetColor(Color c)
-        {
+        //public void SetColor(Color c)
+        //{
 
-            _resetAttractTimer();
-            StartColorSelect();
-            Brush = new SolidColorBrush(c);
-            _publish(c);
-        }
+        //    _resetAttractTimer();
+        //    StartColorSelect();
+        //    Brush = new SolidColorBrush(c);
+        //    _publish(c);
+        //}
 
 
         void _publish(Color colour)
@@ -361,7 +373,7 @@ namespace TimeToShineClient.View.ColorSelection
             _colorService.PublishSampleColor(colour);
         }
 
-        public SolidColorBrush Brush
+        public Color Brush
         {
             get { return _brush; }
             set

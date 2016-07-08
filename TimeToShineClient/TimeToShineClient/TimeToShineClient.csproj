@@ -135,6 +135,7 @@
     <Compile Include="Model\Messages\DebugMessage.cs" />
     <Compile Include="Model\Messages\ResetMessage.cs" />
     <Compile Include="Model\Messages\SettingsMessage.cs" />
+    <Compile Include="Model\Messages\SpecialColorSelectedMessage.cs" />
     <Compile Include="Model\Repo\ConfigRepo.cs" />
     <Compile Include="Model\Contract\IConfigRepo.cs" />
     <Compile Include="Model\Service\ColorService.cs" />
