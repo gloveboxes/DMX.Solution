@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Chat;
@@ -7,6 +9,8 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Media;
+using Autofac;
+using TimeToShineClient.Controls;
 using TimeToShineClient.Model;
 using TimeToShineClient.Model.Contract;
 using TimeToShineClient.Model.Entity;
@@ -57,6 +61,8 @@ namespace TimeToShineClient.View.ColorSelection
 
         int counter = 0;
 
+        private List<SolidColorPanelViewModel> _colours;
+
         public ColorSelectViewModel(IColorService colorService, IConfigService configService)
         {
             _colorService = colorService;
@@ -69,6 +75,43 @@ namespace TimeToShineClient.View.ColorSelection
             this.Register<ResetMessage>(_onReset);
             this.Register<SettingsMessage>(_onSettings);
             this.Register<DebugMessage>(_onDebugMessage);
+
+
+
+        }
+
+
+
+        void _init()
+        {
+            var colours = new List<Color>()
+            {
+                Colors.Red,
+                Colors.Green,
+                Colors.Blue,
+                Colors.Pink,
+                Colors.White,
+                Colors.LightBlue,
+                Colors.LightGreen,
+                Colors.Purple,
+                Colors.Orange,
+                Colors.LightPink,
+                Colors.Aqua,
+                Colors.LightYellow,
+                Colors.Teal,
+                Colors.PaleVioletRed
+
+            };
+
+            var width = Window.Current.Bounds.Width / colours.Count;
+
+            var colTemp = colours.Select(c => CreateContentModel<SolidColorPanelViewModel>(_ =>
+            {
+                _.Colour = new SolidColorBrush(c);
+                _.Width = width;
+            })).ToList();
+
+            Colours = colTemp;
         }
 
         void _onDebugMessage(object message)
@@ -83,10 +126,6 @@ namespace TimeToShineClient.View.ColorSelection
             {
                 DebugText += $"\r\n{m.Message}";
             });
-        
-
-       
-
         }
 
         void _saveSettings()
@@ -180,6 +219,7 @@ namespace TimeToShineClient.View.ColorSelection
         {
             base.OnInitialise();
             StartAttract();
+            _init();
         }
 
         public void StartSave()
@@ -444,7 +484,7 @@ namespace TimeToShineClient.View.ColorSelection
             get { return _dmxChannel; }
             set
             {
-                _dmxChannel = value; 
+                _dmxChannel = value;
                 OnPropertyChanged();
             }
         }
@@ -464,7 +504,17 @@ namespace TimeToShineClient.View.ColorSelection
             get { return _debugText; }
             set
             {
-                _debugText = value; 
+                _debugText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<SolidColorPanelViewModel> Colours
+        {
+            get { return _colours; }
+            set
+            {
+                _colours = value;
                 OnPropertyChanged();
             }
         }

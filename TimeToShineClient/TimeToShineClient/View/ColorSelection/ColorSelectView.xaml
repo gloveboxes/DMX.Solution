@@ -9,9 +9,23 @@
     xmlns:controls="using:TimeToShineClient.Controls"
     mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignHeight="1024" d:DesignWidth="768">
 
-    <Grid Background="{x:Bind ViewModel.Brush, Mode=OneWay}" 
-          PointerPressed="UIElement_OnPointerPressed" x:Name="colorSpectrum">
+    <Grid 
+          x:Name="colorSpectrum">
 
+
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Colours, Mode=OneWay}" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls:SolidColorPanelView></controls:SolidColorPanelView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
         <controls:DebugModeView
             Visibility="{x:Bind ViewModel.DebugMode, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" 
             VerticalAlignment="Top" 

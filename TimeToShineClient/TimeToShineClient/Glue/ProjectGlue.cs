@@ -25,6 +25,11 @@ namespace TimeToShineClient.Glue
                 .Where(t => t.Name.EndsWith("Service") || t.Name.EndsWith("Repo"))
                 .AsImplementedInterfaces();
 
+            //Builder.RegisterAssemblyTypes(typeof(MainHomeViewModel).GetTypeInfo().Assembly)
+            //    .Where(t => t.Name.EndsWith("ViewModel"))
+            //    .AsSelf();
+
+
             Builder.RegisterType<TransferConfigService>().As<IHttpTransferConfigService>();
 
             Container = Builder.Build();
