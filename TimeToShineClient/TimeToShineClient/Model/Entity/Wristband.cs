@@ -13,10 +13,13 @@ namespace TimeToShineClient.Model.Entity
         public uint[] id { get; set; } = new uint[] { 1 };
         public byte[] data { get; } = new byte[ChannelsPerFixture];
 
+        private int currentChannel = 0;
+
         public void SetChannel(int channel, byte value)
         {
             if (channel < 1 || channel > ChannelsPerFixture) { return; }
             data[channel - 1] = value; // map 1 based channel IDs to zero based arrays
+            currentChannel = channel;
         }
 
         public void SetRgb(byte red, byte green, byte blue, byte white = 0)
@@ -36,7 +39,7 @@ namespace TimeToShineClient.Model.Entity
         public bool IsSame(int channel, byte value)
         {
             if (channel < 1 || channel > ChannelsPerFixture) { return false; }
-            return data[channel - 1] == value; // map 1 based channel IDs to zero based arrays
+            return currentChannel == channel && data[channel - 1] == value; // map 1 based channel IDs to zero based arrays
         }
     }
 }
