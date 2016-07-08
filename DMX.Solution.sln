@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeToShineClient", "TimeToShineClient\TimeToShineClient\TimeToShineClient.csproj", "{4081E023-0B64-4584-9B8B-8EA47E585307}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxLabClient", "TimeToShineClient\TimeToShineClient\MaxLabClient.csproj", "{4081E023-0B64-4584-9B8B-8EA47E585307}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMX.Console.Client", "DMX.Console.Client\DMX.Console.Client.csproj", "{DB85898A-DA20-46A0-B3DD-C624FDD045BB}"
 EndProject
