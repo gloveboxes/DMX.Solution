@@ -23,6 +23,14 @@ namespace TimeToShineClient.Controls
         {
             this.InitializeComponent();
             this.PointerEntered += SolidColorPanelView_PointerEntered;
+            this.PointerPressed += SolidColorPanelView_PointerPressed;
+        }
+
+        private void SolidColorPanelView_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var vm = this.DataContext as SolidColorPanelViewModel;
+
+            vm?.MousedIn();
         }
 
         private void SolidColorPanelView_PointerEntered(object sender, PointerRoutedEventArgs e)

@@ -110,8 +110,9 @@ namespace TimeToShineClient.View.ColorSelection
             }
         }
 
-        void _init()
+        async void _init()
         {
+            await Task.Delay(300);
             _colorService.Channel = 1;
 
             Channels = new List<Channel>();
