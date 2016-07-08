@@ -33,10 +33,10 @@ namespace TimeToShineClient.Model.Entity
             return red == data[1] && green == data[2] && blue == data[3];
         }
 
-        public bool IsSame(int channel, byte colour)
+        public bool IsSame(int channel, byte value)
         {
             if (channel < 1 || channel > ChannelsPerFixture) { return false; }
-            return data[channel - 1] == colour; // map 1 based channel IDs to zero based arrays
+            return data[channel - 1] == value; // map 1 based channel IDs to zero based arrays
         }
     }
 }
