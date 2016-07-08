@@ -27,6 +27,10 @@ namespace TimeToShineClient.Controls
 
         private void SolidColorPanelView_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            if (!e.Pointer.IsInContact)
+            {
+                return;
+            }
             var vm = this.DataContext as SolidColorPanelViewModel;
 
             vm?.MousedIn();
