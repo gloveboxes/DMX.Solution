@@ -65,6 +65,8 @@ namespace TimeToShineClient.View.ColorSelection
 
         private List<SolidColorPanelViewModel> _colours;
 
+        private List<Channel> _channels;
+
         public ColorSelectViewModel(IColorService colorService, IConfigService configService)
         {
             _colorService = colorService;
@@ -93,10 +95,32 @@ namespace TimeToShineClient.View.ColorSelection
 
         }
 
+        void _toggled(Channel c)
+        {
+            foreach (var channel in Channels)
+            {
+                if (c == channel && c.IsToggled)
+                {
+                    continue;
+                }
 
+                channel.IsToggled = false;
+            }
+        }
 
         void _init()
         {
+            Channels = new List<Channel>();
+
+            for (var c = 1; c <= 9; c++)
+            {
+                Channels.Add(new Channel()
+                {
+                    ChannelNumber = c.ToString(),
+                    ToggleChannel = _toggled
+                });
+            }
+
             var colours = new List<Color>()
             {
                 Colors.Red,
@@ -144,7 +168,7 @@ namespace TimeToShineClient.View.ColorSelection
 
 
                 var specialColor = new SpecialColor(colours[iColor], i[iColor]);
-               
+
 
                 Debug.WriteLine($"Color: {specialColor.Color}, code: {specialColor.SpecialCode} ");
 
@@ -561,6 +585,16 @@ namespace TimeToShineClient.View.ColorSelection
             set
             {
                 _colours = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<Channel> Channels
+        {
+            get { return _channels; }
+            set
+            {
+                _channels = value;
                 OnPropertyChanged();
             }
         }

@@ -38,10 +38,21 @@
             </Border.Background>
 
         </Border>
-        
-        
-      
-        
+
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Channels, Mode=OneWay}" Margin="0,0,0,50" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls:ChannelToggleView Margin="25,0"></controls:ChannelToggleView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
         <controls:SettingsControlView
              Visibility="{x:Bind ViewModel.SettingsRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" Width="500" Height="500"
             ></controls:SettingsControlView>

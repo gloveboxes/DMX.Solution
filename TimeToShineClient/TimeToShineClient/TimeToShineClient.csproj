@@ -102,6 +102,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ChannelToggleView.xaml.cs">
+      <DependentUpon>ChannelToggleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DataEntryControlView.xaml.cs">
       <DependentUpon>DataEntryControlView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,7 @@
     </Compile>
     <Compile Include="Glue\ProjectGlue.cs" />
     <Compile Include="Model\Contract\IMQTTService.cs" />
+    <Compile Include="Model\Entity\Channel.cs" />
     <Compile Include="Model\Entity\GenericRGBW.cs" />
     <Compile Include="Model\Entity\IFixture.cs" />
     <Compile Include="Model\Entity\ParTri7.cs" />
@@ -196,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ChannelToggleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\DataEntryControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
