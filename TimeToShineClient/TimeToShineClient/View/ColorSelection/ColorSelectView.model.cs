@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -72,7 +73,7 @@ namespace TimeToShineClient.View.ColorSelection
             StartSaveCommand = new XCommand(_onStartSave);
             SaveSettingsCommand = new XCommand(_saveSettings);
             CancelSettingsCommand = new XCommand(_cancelSettings);
-          //  _attractTimer();
+            //  _attractTimer();
             this.Register<ResetMessage>(_onReset);
             this.Register<SettingsMessage>(_onSettings);
             this.Register<DebugMessage>(_onDebugMessage);
@@ -89,7 +90,7 @@ namespace TimeToShineClient.View.ColorSelection
 
                 Brush = m.Color.Color;
             });
-          
+
         }
 
 
@@ -119,12 +120,33 @@ namespace TimeToShineClient.View.ColorSelection
 
             var colTemp = new List<SolidColorPanelViewModel>();
 
-            byte spot = 1;
-
-            foreach (var c  in colours)
+            var i = new List<byte>()
             {
-                var specialColor = new SpecialColor(c, spot);
-                spot += 18;
+                    1,
+                    19,
+                    37,
+                    55,
+                    73,
+                    91,
+                    109,
+                    127,
+                    145,
+                    163,
+                    181,
+                    199,
+                    217,
+                    235,
+                    253
+            };
+
+            for (var iColor = 0; iColor < colours.Count; iColor++)
+            {
+
+
+                var specialColor = new SpecialColor(colours[iColor], i[iColor]);
+               
+
+                Debug.WriteLine($"Color: {specialColor.Color}, code: {specialColor.SpecialCode} ");
 
                 var vm = CreateContentModel<SolidColorPanelViewModel>(_ =>
                 {
@@ -134,7 +156,7 @@ namespace TimeToShineClient.View.ColorSelection
 
                 colTemp.Add(vm);
             }
-            
+
             Colours = colTemp;
         }
 
@@ -339,7 +361,7 @@ namespace TimeToShineClient.View.ColorSelection
             StopColorSelect();
             StopSave();
             AttractRunning = true;
-           // _chase();
+            // _chase();
         }
 
         //async void _chase()
