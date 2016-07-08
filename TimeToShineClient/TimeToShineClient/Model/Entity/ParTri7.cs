@@ -12,8 +12,8 @@ namespace TimeToShineClient.Model.Entity
 
         public void SetChannel(int channel, byte value)
         {
-            if (channel < 0 || channel >= ChannelsPerFixture) { return; }
-            data[channel] = value;
+            if (channel < 1 || channel > ChannelsPerFixture) { return; }
+            data[channel - 1] = value;  // map 1 based channel IDs to zero based arrays
         }
 
         public void SetRgb(byte red, byte green, byte blue, byte white = 0)
