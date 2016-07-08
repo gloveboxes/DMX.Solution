@@ -144,7 +144,8 @@ namespace TimeToShineClient.View.ColorSelection
                 Colors.Aqua,
                 Colors.LightYellow,
                 Colors.Teal,
-                Colors.PaleVioletRed
+                Colors.PaleVioletRed,
+                Colors.Black
 
             };
 
@@ -168,7 +169,8 @@ namespace TimeToShineClient.View.ColorSelection
                     199,
                     217,
                     235,
-                    253
+                    253,
+                    0
             };
 
             for (var iColor = 0; iColor < colours.Count; iColor++)
