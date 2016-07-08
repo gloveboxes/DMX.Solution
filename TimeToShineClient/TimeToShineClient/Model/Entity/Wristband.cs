@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
-using System.Text;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TimeToShineClient.Model.Entity
 {
-    class SL3456 : IFixture
+    class Wristband : IFixture
     {
-        const int ChannelsPerFixture = 6;
-        public uint[] id { get; set; } = new uint[] { 1, 7 };
+        const int ChannelsPerFixture = 9;
+        public uint[] id { get; set; } = new uint[] { 1 };
         public byte[] data { get; } = new byte[ChannelsPerFixture];
 
         public void SetChannel(int channel, byte value)
@@ -18,9 +21,6 @@ namespace TimeToShineClient.Model.Entity
 
         public void SetRgb(byte red, byte green, byte blue, byte white = 0)
         {
-            data[1] = red;
-            data[2] = green;
-            data[3] = blue;
         }
 
         public byte[] ToJson()
@@ -31,6 +31,12 @@ namespace TimeToShineClient.Model.Entity
         public bool IsSame(byte red, byte green, byte blue, byte white = 0)
         {
             return red == data[1] && green == data[2] && blue == data[3];
+        }
+
+        public bool IsSame(int channel, byte value)
+        {
+            if (channel < 1 || channel > ChannelsPerFixture) { return false; }
+            return data[channel - 1] == value; // map 1 based channel IDs to zero based arrays
         }
     }
 }
