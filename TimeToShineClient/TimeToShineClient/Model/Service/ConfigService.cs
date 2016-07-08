@@ -59,7 +59,7 @@ namespace TimeToShineClient.Model.Service
 
         public string MqttTopic
         {
-            get { return _config[MQTT_TOPIC] ?? "msstore/vivid/light/"; }
+            get { return _config[MQTT_TOPIC] ?? "dmx/data"; }
             set { _config.Write(MQTT_TOPIC, value); }
         }
     }
