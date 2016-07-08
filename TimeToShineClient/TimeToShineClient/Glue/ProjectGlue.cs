@@ -23,7 +23,8 @@ namespace TimeToShineClient.Glue
 
             Builder.RegisterAssemblyTypes(typeof (MainHomeViewModel).GetTypeInfo().Assembly)
                 .Where(t => t.Name.EndsWith("Service") || t.Name.EndsWith("Repo"))
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
             //Builder.RegisterAssemblyTypes(typeof(MainHomeViewModel).GetTypeInfo().Assembly)
             //    .Where(t => t.Name.EndsWith("ViewModel"))

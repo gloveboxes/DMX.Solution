@@ -13,7 +13,6 @@ namespace TimeToShineClient.Model.Service
         private readonly IConfigService _configService;
         private readonly IXWebRepo<UserColor> _colorsRepo;
 
-
         public ColorService(IMQTTService mqttService, 
             IConfigService configService, 
             IXWebRepo<UserColor> colorsRepo)
@@ -23,10 +22,12 @@ namespace TimeToShineClient.Model.Service
             _colorsRepo = colorsRepo;
         }
 
+        public int Channel { get; set; }
+
         public void PublishSpecialSampleColor(byte c)
         {
-            Debug.WriteLine(c);
-            _mqttService.PublishSpecial(c);
+            Debug.WriteLine($"Color: {c}, Channel: {Channel}");
+            _mqttService.PublishSpecial(c, Channel);
         }
 
         public void PublishSampleColor(Color c)

@@ -101,15 +101,19 @@ namespace TimeToShineClient.View.ColorSelection
             {
                 if (c == channel && c.IsToggled)
                 {
+                    _colorService.Channel = Convert.ToInt32(c.ChannelNumber);
                     continue;
                 }
 
                 channel.IsToggled = false;
+
             }
         }
 
         void _init()
         {
+            _colorService.Channel = 1;
+
             Channels = new List<Channel>();
 
             for (var c = 1; c <= 9; c++)
@@ -117,8 +121,11 @@ namespace TimeToShineClient.View.ColorSelection
                 Channels.Add(new Channel()
                 {
                     ChannelNumber = c.ToString(),
-                    ToggleChannel = _toggled
+                    ToggleChannel = _toggled,
+                    IsToggled = c == 1
                 });
+
+               
             }
 
             var colours = new List<Color>()

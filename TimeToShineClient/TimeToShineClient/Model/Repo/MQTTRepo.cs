@@ -89,11 +89,11 @@ namespace TimeToShineClient.Model.Repo
 
         private bool _isConnected => client != null && client.IsConnected;
 
-        public void PublishSpecial(byte b)
+        public void PublishSpecial(byte b, int channel)
         {
-            if (latestColour.IsSame(Convert.ToInt32(_dmxChannel), b)) { return; }
+            if (latestColour.IsSame(channel, b)) { return; }
 
-            latestColour.SetChannel(Convert.ToInt32(_dmxChannel), b);
+            latestColour.SetChannel(channel, b);
 
             publishEvent.Set();
         }

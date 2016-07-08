@@ -6,6 +6,7 @@ namespace TimeToShineClient.Model.Contract
     public interface IMQTTService
     {
         void Publish(Colour colour);
-        void PublishSpecial(byte b);
+        void PublishSpecial(byte b, int channel);
+        
     }
 }
