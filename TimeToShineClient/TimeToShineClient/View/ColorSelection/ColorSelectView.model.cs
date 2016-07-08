@@ -169,8 +169,7 @@ namespace TimeToShineClient.View.ColorSelection
                     199,
                     217,
                     235,
-                    253,
-                    0
+                    0,
             };
 
             for (var iColor = 0; iColor < colours.Count; iColor++)
