@@ -28,6 +28,11 @@ namespace TimeToShineClient.Model.Entity
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
         }
 
+        public bool IsSame(int channel, byte value)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsSame(byte red, byte green, byte blue, byte white = 0)
         {
             return red == data[1] && green == data[2] && blue == data[3];

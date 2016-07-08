@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid Width="{Binding Width}" Background="{Binding Colour}">
-
+    <Grid Width="{Binding Width}" Background="{Binding Colour.Brush}">
+    
     </Grid>
 </UserControl>

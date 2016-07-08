@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using TimeToShineClient.Model.Contract;
+using TimeToShineClient.Model.Entity;
 using XamlingCore.Portable.View.ViewModel;
 
 namespace TimeToShineClient.Controls
@@ -12,7 +13,7 @@ namespace TimeToShineClient.Controls
     public class SolidColorPanelViewModel : XViewModel
     {
         private readonly IColorService _colorService;
-        private SolidColorBrush _colour;
+        private SpecialColor _colour;
         private double _width;
 
         public SolidColorPanelViewModel(IColorService colorService)
@@ -22,10 +23,10 @@ namespace TimeToShineClient.Controls
 
         public void MousedIn()
         {
-            _colorService.PublishSampleColor(_colour.Color);
+            _colorService.PublishSpecialSampleColor(_colour.SpecialCode);
         }
 
-        public SolidColorBrush Colour
+        public SpecialColor Colour
         {
             get { return _colour; }
             set

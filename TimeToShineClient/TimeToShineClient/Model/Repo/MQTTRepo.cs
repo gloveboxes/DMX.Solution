@@ -18,7 +18,7 @@ namespace TimeToShineClient.Model.Repo
         private string _dmxChannel = "1";
         MqttClient client;
         //    Colour latestColour = new Colour();
-        IFixture latestColour = new GenericRGBW();
+        IFixture latestColour = new Wristband();
 
         const int publishCycleTime = 100;
         AutoResetEvent publishEvent = new AutoResetEvent(false);
@@ -30,29 +30,7 @@ namespace TimeToShineClient.Model.Repo
 
             Task.Run(new Action(_publish));
         }
-
-        void _config()
-        {
-            var dChannel = _configService.DMXChannel;
-
-            if (string.IsNullOrWhiteSpace(dChannel))
-            {
-                _dmxChannel = "1";
-            }
-            else
-            {
-                _dmxChannel = dChannel;
-            }
-
-            _mqttTopic = _configService.MqttTopic;
-
-            if (_mqttTopic == null)
-            {
-                _configService.MqttTopic = "dmx/data";
-                _mqttTopic = _configService.MqttTopic;
-            }
-        }
-
+      
 
         async void _publish()  //run async
         {
@@ -110,6 +88,15 @@ namespace TimeToShineClient.Model.Repo
         }
 
         private bool _isConnected => client != null && client.IsConnected;
+
+        public void PublishSpecial(byte b)
+        {
+            if (latestColour.IsSame(Convert.ToInt32(_dmxChannel), b)) { return; }
+
+            latestColour.SetChannel(Convert.ToInt32(_dmxChannel), b);
+
+            publishEvent.Set();
+        }
 
 
         public void Publish(Colour colour)

@@ -7,5 +7,6 @@ namespace TimeToShineClient.Model.Contract
     {
         void PublishSampleColor(Color c);
         void SaveColorToServer(UserColor c);
+        void PublishSpecialSampleColor(byte c);
     }
 }

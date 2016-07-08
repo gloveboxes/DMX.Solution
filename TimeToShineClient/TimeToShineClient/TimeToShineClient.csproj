@@ -129,6 +129,7 @@
     <Compile Include="Model\Entity\IFixture.cs" />
     <Compile Include="Model\Entity\ParTri7.cs" />
     <Compile Include="Model\Entity\SL3456.cs" />
+    <Compile Include="Model\Entity\SpecialColor.cs" />
     <Compile Include="Model\Entity\UserColor.cs" />
     <Compile Include="Model\Entity\Wristband.cs" />
     <Compile Include="Model\Messages\DebugMessage.cs" />

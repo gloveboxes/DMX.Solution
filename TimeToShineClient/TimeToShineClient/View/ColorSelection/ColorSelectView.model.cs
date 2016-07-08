@@ -105,12 +105,24 @@ namespace TimeToShineClient.View.ColorSelection
 
             var width = Window.Current.Bounds.Width / colours.Count;
 
-            var colTemp = colours.Select(c => CreateContentModel<SolidColorPanelViewModel>(_ =>
-            {
-                _.Colour = new SolidColorBrush(c);
-                _.Width = width;
-            })).ToList();
+            var colTemp = new List<SolidColorPanelViewModel>();
 
+            byte spot = 1;
+
+            foreach (var c  in colours)
+            {
+                var specialColor = new SpecialColor(c, spot);
+                spot += 18;
+
+                var vm = CreateContentModel<SolidColorPanelViewModel>(_ =>
+                {
+                    _.Colour = specialColor;
+                    _.Width = width;
+                });
+
+                colTemp.Add(vm);
+            }
+            
             Colours = colTemp;
         }
 

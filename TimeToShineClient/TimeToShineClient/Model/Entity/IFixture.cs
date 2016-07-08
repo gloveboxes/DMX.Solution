@@ -8,5 +8,6 @@
         void SetRgb(byte red, byte green, byte blue, byte white = 0);
         bool IsSame(byte red, byte green, byte blue, byte white = 0);
         byte[] ToJson();
+        bool IsSame(int channel, byte value);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Windows.UI;
+﻿using System.Diagnostics;
+using Windows.UI;
 using TimeToShineClient.Model.Contract;
 using TimeToShineClient.Model.Entity;
 using XamlingCore.Portable.Contract.Downloaders;
@@ -22,11 +23,17 @@ namespace TimeToShineClient.Model.Service
             _colorsRepo = colorsRepo;
         }
 
+        public void PublishSpecialSampleColor(byte c)
+        {
+            Debug.WriteLine(c);
+            _mqttService.PublishSpecial(c);
+        }
+
         public void PublishSampleColor(Color c)
         {
-            //var colour = Colour.FromColor(c);
-            //colour.LightId = _configService.LightIdArray;
-            //_mqttService.Publish(colour);
+            var colour = Colour.FromColor(c);
+            colour.LightId = _configService.LightIdArray;
+            _mqttService.Publish(colour);
         }
 
         public async void SaveColorToServer(UserColor c)
