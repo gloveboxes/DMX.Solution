@@ -87,6 +87,24 @@ File: fixture.json
     ]
 
 
+##Installation
+
+
+
+##Raspbian Tips and Tricks
+
+###Setting a statip IP Address
+
+[How to give your Raspberry Pi (Jessie) a Static IP Address ](http://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update)
+
+
+    interface wlan0
+
+    static ip_address=10.10.10.220/23
+    static routers=10.10.10.1
+    static domain_name_servers=194.161.154.253
+
+
 
 ##Acknowledgements 
 [FTD2XX](https://github.com/alcexhim/FTD2XX) C# Driver Wrapper for the FTDI chip used by the ENTTEC DMX Controller 
