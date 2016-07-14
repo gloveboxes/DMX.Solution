@@ -57,7 +57,7 @@
              Visibility="{x:Bind ViewModel.SettingsRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" Width="500" Height="500"
             ></controls:SettingsControlView>
         
-        <Image Source="/Assets/colour-labs.png" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="250" Height="250" Margin="20,0,0,50"/>
+        <!--<Image Source="/Assets/colour-labs.png" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="250" Height="250" Margin="20,0,0,50"/>-->
     </Grid>
 </view:XPage>
 

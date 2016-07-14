@@ -10,17 +10,25 @@
     d:DesignWidth="400">
 
     <Grid>
-        <StackPanel Margin="0,0,0,-86">
+        <StackPanel Margin="0,0,0,-235">
             <TextBlock Text="MQTT Broker"></TextBlock>
             <TextBox Text="{Binding Broker, Mode=TwoWay}"></TextBox>
             <TextBlock Text="MQTT Topic"></TextBlock>
             <TextBox Text="{Binding Topic, Mode=TwoWay}"></TextBox>
             <TextBlock Text="Base URL"></TextBlock>
             <TextBox Text="{Binding BaseUrl, Mode=TwoWay}"></TextBox>
-            <TextBlock Text="Dmx Channel (not used)"></TextBlock>
-            <TextBox Text="{Binding DmxChannel, Mode=TwoWay}"></TextBox>
             <TextBlock Text="Fixture Ids (comma separated)"></TextBlock>
             <TextBox Text="{Binding LightIds, Mode=TwoWay}"></TextBox>
+            <TextBlock Text="Colour Cycle 1"></TextBlock>
+            <TextBox Text="{Binding cycle1, Mode=TwoWay}"></TextBox>
+            <TextBlock Text="Colour Cycle 2"></TextBlock>
+            <TextBox Text="{Binding cycle2, Mode=TwoWay}"></TextBox>
+            <TextBlock Text="Colour Cycle 3"></TextBlock>
+            <TextBox Text="{Binding cycle13, Mode=TwoWay}"></TextBox>
+            <TextBlock Text="Colour Cycle 4"></TextBlock>
+            <TextBox Text="{Binding cycle4, Mode=TwoWay}"></TextBox>
+            <TextBlock Text="Colour Cycle 5"></TextBlock>
+            <TextBox Text="{Binding cycle5, Mode=TwoWay}"></TextBox>
             <TextBlock Text="Debug mode"></TextBlock>
             <CheckBox IsChecked="{Binding DebugMode, Mode=TwoWay}"/>
             <StackPanel Orientation="Horizontal">
