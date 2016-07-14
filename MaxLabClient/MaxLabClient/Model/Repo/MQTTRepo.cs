@@ -19,7 +19,8 @@ namespace TimeToShineClient.Model.Repo
         private string _dmxChannel = "1";
         MqttClient client;
         //    Colour latestColour = new Colour();
-        IFixture latestColour = new Wristband();
+        IFixture wristband = new Wristband();
+        IFixture rgbwLight = new GenericRGBW();
 
         const int publishCycleTime = 100;
         AutoResetEvent publishEvent = new AutoResetEvent(false);
@@ -68,15 +69,22 @@ namespace TimeToShineClient.Model.Repo
 
                 try
                 {
-                  //  latestColour.MsgId = sentCount++;
-                    latestColour.id = _configService.LightIdArray;
+                    //  latestColour.MsgId = sentCount++;
+                    wristband.id = new uint[] { 1 }; 
 
-
-                    var json = latestColour.ToJson();
+                    var json = wristband.ToJson();
 
                     new DebugMessage($"Sending: Topic: {_mqttTopic}, dmx: {_dmxChannel}, Light Id: {Encoding.ASCII.GetString(json)}").Send();
 
                     var result = client.Publish($"{_mqttTopic}{_dmxChannel}", json);
+
+
+                    rgbwLight.id = _configService.LightIdArray;
+                    json = rgbwLight.ToJson();
+
+                    new DebugMessage($"Sending: Topic: {_mqttTopic}, dmx: {_dmxChannel}, Light Id: {Encoding.ASCII.GetString(json)}").Send();               
+
+                    result = client.Publish($"{_mqttTopic}{_dmxChannel}", json);
 
                     new DebugMessage($"Send result: {result}").Send();
 
@@ -92,9 +100,10 @@ namespace TimeToShineClient.Model.Repo
 
         public void PublishSpecial(byte b, int channel, Color color)
         {
-            if (latestColour.IsSame(channel, b)) { return; }
+            if (wristband.IsSame(channel, b)) { return; }
 
-            latestColour.SetChannel(channel, b);
+            wristband.SetChannel(channel, b);
+            rgbwLight.SetRgb(color.R, color.G, color.B);
 
             publishEvent.Set();
         }
@@ -102,9 +111,9 @@ namespace TimeToShineClient.Model.Repo
 
         public void Publish(Colour colour)
         {
-            if (latestColour.IsSame(colour.Red, colour.Green, colour.Blue)) {return; }
+            if (wristband.IsSame(colour.Red, colour.Green, colour.Blue)) {return; }
 
-            latestColour.SetRgb(colour.Red, colour.Green, colour.Blue);
+            wristband.SetRgb(colour.Red, colour.Green, colour.Blue);
 
             publishEvent.Set();
 
