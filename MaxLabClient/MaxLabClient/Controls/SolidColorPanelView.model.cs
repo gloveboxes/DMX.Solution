@@ -26,7 +26,7 @@ namespace TimeToShineClient.Controls
         public void MousedIn()
         {
             new SpecialColorSelectedMessage(_colour).Send();
-            _colorService.PublishSpecialSampleColor(_colour.SpecialCode);
+            _colorService.PublishSpecialSampleColor(_colour.SpecialCode, _colour.Color);
         }
 
         public SpecialColor Colour

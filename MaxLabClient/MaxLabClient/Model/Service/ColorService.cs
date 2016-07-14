@@ -24,10 +24,10 @@ namespace TimeToShineClient.Model.Service
 
         public int Channel { get; set; }
 
-        public void PublishSpecialSampleColor(byte c)
+        public void PublishSpecialSampleColor(byte c, Color color)
         {
             Debug.WriteLine($"Color: {c}, Channel: {Channel}");
-            _mqttService.PublishSpecial(c, Channel);
+            _mqttService.PublishSpecial(c, Channel, color);
         }
 
         public void PublishSampleColor(Color c)

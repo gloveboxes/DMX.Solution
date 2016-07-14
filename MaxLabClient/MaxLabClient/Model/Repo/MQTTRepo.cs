@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI;
 using TimeToShineClient.Model.Contract;
 using TimeToShineClient.Model.Entity;
 using TimeToShineClient.Model.Messages;
@@ -89,7 +90,7 @@ namespace TimeToShineClient.Model.Repo
 
         private bool _isConnected => client != null && client.IsConnected;
 
-        public void PublishSpecial(byte b, int channel)
+        public void PublishSpecial(byte b, int channel, Color color)
         {
             if (latestColour.IsSame(channel, b)) { return; }
 
