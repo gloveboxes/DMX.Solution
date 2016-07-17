@@ -32,10 +32,13 @@ namespace DMX.Server
 
         public Intensity LightIntensity = Intensity.high;
         public string UniverseFilename { get; set; }
+        public string AutoPlayFilename { get; set; }
+        public double AutoPlayIntensity { get; set; }
 
         public Configuration()
         {
             UniverseFilename = AppDomain.CurrentDomain.BaseDirectory + "universe.json";
+            AutoPlayFilename = AppDomain.CurrentDomain.BaseDirectory + "autoplay.json";
         }
 
         public void Log(string messsage)
@@ -45,7 +48,7 @@ namespace DMX.Server
 
         public void SetIntensity(string level = null)
         {
-            double intesityMultiplier = 1;
+            AutoPlayIntensity = 1;
             if (level != null)
             {
                 if (!Enum.TryParse<Intensity>(level.ToLowerInvariant(), out LightIntensity)) { return; }
@@ -54,18 +57,17 @@ namespace DMX.Server
             switch (LightIntensity)
             {
                 case Intensity.high:
-                    intesityMultiplier = 1;
+                    AutoPlayIntensity = 1;
                     break;
                 case Intensity.medium:
-                    intesityMultiplier = 0.7;
+                    AutoPlayIntensity = 0.7;
                     break;
                 case Intensity.low:
-                    intesityMultiplier = 0.4;
+                    AutoPlayIntensity = 0.4;
                     break;
                 default:
                     break;
             }
-            Colour.Intensity = intesityMultiplier;
         }
 
 
@@ -210,7 +212,7 @@ namespace DMX.Server
             message.Append("\n\nSettings\n");
             message.Append($"\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds}");
             message.Append($"\nAuto Play {AutoPlay} seconds");
-            message.Append($"\nAuto Play Light Level Intensity is {Colour.Intensity.ToString()}");
+            message.Append($"\nAuto Play Light Level Intensity is {AutoPlayIntensity.ToString()}");
             message.Append($"\nCycle Mode {AutoPlayCycleMode.ToString()}");
             message.Append($"\nMqtt Broker Address {MqttBroker}");
             message.Append($"\nMqtt DMX Data Topic {MqttDataTopic}");

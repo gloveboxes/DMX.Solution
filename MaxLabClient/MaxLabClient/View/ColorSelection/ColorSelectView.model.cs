@@ -131,22 +131,22 @@ namespace TimeToShineClient.View.ColorSelection
 
             var colours = new List<Color>()
             {
+                Colors.Black,
                 Colors.Red,
                 Colors.Green,
                 Colors.Blue,
                 Colors.Pink,
                 Colors.White,
-                Colors.LightBlue,
-                Colors.LightGreen,
-                Colors.Purple,
+                Colors.DeepSkyBlue, 
+                Colors.ForestGreen,
+                Colors.MediumPurple,
                 Colors.Orange,
                 Colors.LightPink,
                 Colors.Aqua,
-                Colors.LightYellow,
+                Colors.Lime,
                 Colors.Teal,
-                Colors.PaleVioletRed,
-                Colors.Black
-
+                Colors.MediumVioletRed,
+               
             };
 
             var width = Window.Current.Bounds.Width / colours.Count;
@@ -156,28 +156,25 @@ namespace TimeToShineClient.View.ColorSelection
             var i = new List<byte>()
             {
                     1,
-                    19,
-                    37,
-                    55,
-                    73,
-                    91,
-                    109,
-                    127,
-                    145,
-                    163,
-                    181,
-                    199,
-                    217,
-                    235,
-                    0,
+                    16,
+                    32,
+                    48,
+                    64,
+                    80,
+                    112,
+                    128,
+                    144,
+                    160,
+                    176,
+                    192,
+                    208,
+                    224,
+                    240,
             };
 
             for (var iColor = 0; iColor < colours.Count; iColor++)
             {
-
-
                 var specialColor = new SpecialColor(colours[iColor], i[iColor]);
-
 
                 Debug.WriteLine($"Color: {specialColor.Color}, code: {specialColor.SpecialCode} ");
 

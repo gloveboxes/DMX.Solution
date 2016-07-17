@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Colour.cs" />
+    <Compile Include="AutoPlay.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DmxController.cs" />
     <Compile Include="FixtureMessage.cs" />
@@ -82,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="autoplay.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="universe.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

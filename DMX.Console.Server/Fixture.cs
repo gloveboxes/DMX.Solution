@@ -28,5 +28,9 @@ namespace DMX.Server
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public byte[] initialChannelMask { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string autoPlayId { get; set; }
+        
     }
 }
