@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoPlay.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DmxController.cs" />
     <Compile Include="FixtureMessage.cs" />
@@ -82,10 +83,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="autoplay.json">
+    <None Include="Config\autoplay.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="universe.json">
+    <None Include="Config\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\universe.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

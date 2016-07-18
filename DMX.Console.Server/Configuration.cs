@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Text;
 
@@ -13,32 +14,34 @@ namespace DMX.Server
             random
         }
 
-        public enum Intensity : byte
-        {
-            high,
-            medium,
-            low
-        }
 
-
-        public string MqttBroker { get; set; } = "localhost";
-        public string MqttDataTopic { get; set; } = "dmx/data/#";
-
-        public string MqttStatusTopic = "dmx/status";
+        string strProgramDataPath;
 
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
-        public uint AutoPlay { get; set; } = 0;
-        public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
 
-        public Intensity LightIntensity = Intensity.high;
+        #region Auto Cycle Mode
+        public uint AutoPlayTimeout { get; set; } = 0;
+        public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
+        public double AutoPlayIntensity { get; set; }
+        #endregion
+
+        #region Mqtt Defaults
+        public string MqttBroker { get; set; } = "localhost";
+        public string MqttDataTopic { get; set; } = "dmx/data/#";
+        public string MqttStatusTopic { get; set; } = "dmx/status";
+        #endregion
+
         public string UniverseFilename { get; set; }
         public string AutoPlayFilename { get; set; }
-        public double AutoPlayIntensity { get; set; }
+        private string ConfigFilename { get; set; }
 
         public Configuration()
         {
-            UniverseFilename = AppDomain.CurrentDomain.BaseDirectory + "universe.json";
-            AutoPlayFilename = AppDomain.CurrentDomain.BaseDirectory + "autoplay.json";
+            strProgramDataPath = Environment.OSVersion.Platform == PlatformID.Unix ? "/home/pi" : Environment.ExpandEnvironmentVariables("%PROGRAMDATA%");
+
+            UniverseFilename = Path.Combine(strProgramDataPath, "dmx.server", "universe.json");
+            AutoPlayFilename = Path.Combine(strProgramDataPath, "dmx.server", "autoplay.json");
+            ConfigFilename = Path.Combine(strProgramDataPath, "dmx.server", "config.json");
         }
 
         public void Log(string messsage)
@@ -46,172 +49,54 @@ namespace DMX.Server
             System.Console.WriteLine(messsage);
         }
 
-        public void SetIntensity(string level = null)
-        {
-            AutoPlayIntensity = 1;
-            if (level != null)
-            {
-                if (!Enum.TryParse<Intensity>(level.ToLowerInvariant(), out LightIntensity)) { return; }
-            }
 
-            switch (LightIntensity)
+        CycleMode? ValidateCycleMode(string mode) {
+            CycleMode cycleMode;
+            if (Enum.TryParse<CycleMode>(mode.ToLowerInvariant(), out cycleMode))
             {
-                case Intensity.high:
-                    AutoPlayIntensity = 1;
-                    break;
-                case Intensity.medium:
-                    AutoPlayIntensity = 0.7;
-                    break;
-                case Intensity.low:
-                    AutoPlayIntensity = 0.4;
-                    break;
-                default:
-                    break;
+                return cycleMode;
+            }
+            else
+            {
+                return null;
             }
         }
 
+        double? ValidateDouble(string value)
+        {
+            double outValue;
+            if (double.TryParse(value, out outValue))
+            {
+                return outValue;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        public bool ParseArgs(string[] args)
+        public bool LoadConfig()
         {
             StringBuilder message = new StringBuilder();
-            uint dmxUpdateRateMilliseconds, autoPlay = 0;
-            CycleMode cycleMode;
-            Intensity intensity;
-            string universeFilename = string.Empty;
 
-            // -c 50 -r 25 -a 5 -s random -f 
+            Config config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilename));   
 
-            for (int a = 0; a < args.Length; a += 2)
-            {
-                switch (args[a].ToLower())
-                {
-                    case "/?":
-                    case "?":
-                    case "-?":
-                    case "/h":
-                    case "-h":
-                    case "help":
-                    case "/help":
-                    case "-help":
-                        message.Append("Usage:\n \n -r DMX Update Rate in Milliseconds");
-                        message.Append("\n -? ? /? /h -h help /help -help This help");
-                        message.Append("\n -a Auto Play Timeout in seconds (0 to disable)");
-                        message.Append("\n -c Cycle Modes: ");
-                        foreach (var name in Enum.GetNames(typeof(CycleMode)))
-                        {
-                            message.Append(name + " ");
-                        }
+            if (config.dmxRefreshRateMilliseconds !=null) { DmxUpdateRateMilliseconds = (uint)config.dmxRefreshRateMilliseconds; }
 
-                        message.Append("\n -i Light Intensity: ");
-                        foreach (var name in Enum.GetNames(typeof(Intensity)))
-                        {
-                            message.Append(name + " ");
-                        }
+            CycleMode? cycleMode = ValidateCycleMode(config.autoPlayCycleMode);
 
-                        message.Append("\n -u full path and file name of universe.json file");
-                        message.Append("\n -b Mqtt Broker Address (default is localhost)");
-                        message.Append("\n -t Mqtt Topic to subscribe to for DMX Data Messages (default is dmx/data/# )");
-                        message.Append("\n -s Mqtt Topic for DMX Status (default is dmx/status )");
+            if (cycleMode != null) { AutoPlayCycleMode = (CycleMode)cycleMode; }
+            if(config.autoPlayIntensity != null && config.autoPlayIntensity > 0 && config.autoPlayIntensity <= 1) { AutoPlayIntensity = (double)config.autoPlayIntensity; }
+            if(config.autoPlayTimeout != null) { AutoPlayTimeout = (uint)config.autoPlayTimeout; }
 
-                        Log(message.ToString());
-
-                        return false;
-                    case "-r":
-                        if (a + 1 < args.Length)
-                        {
-                            if (uint.TryParse(args[a + 1], out dmxUpdateRateMilliseconds))
-                            {
-                                DmxUpdateRateMilliseconds = dmxUpdateRateMilliseconds < 25 ? 25 : dmxUpdateRateMilliseconds;
-                            }
-                            else
-                            {
-                                Log("Invalid DMX Update Rate");
-                                return false;
-                            }
-                        }
-                        break;
-                    case "-a":
-                        if (a + 1 < args.Length)
-                        {
-                            if (uint.TryParse(args[a + 1], out autoPlay))
-                            {
-                                AutoPlay = autoPlay;
-                            }
-                            else
-                            {
-                                Log("Invalid Auto Play timeout");
-                                return false;
-                            }
-                        }
-                        break;
-                    case "-c":
-                        if (a + 1 < args.Length)
-                        {
-                            if (Enum.TryParse<CycleMode>(args[a + 1].ToLowerInvariant(), out cycleMode))
-                            {
-                                AutoPlayCycleMode = cycleMode;
-                            }
-                            else
-                            {
-                                Log("Invalid Cycle Mode");
-                                return false;
-                            }
-                        }
-                        break;
-
-                    case "-i":
-                        if (a + 1 < args.Length)
-                        {
-                            if (Enum.TryParse<Intensity>(args[a + 1].ToLowerInvariant(), out intensity))
-                            {
-                                LightIntensity = intensity;
-                                SetIntensity(null);
-                            }
-                            else
-                            {
-                                Log("Invalid Intensity");
-                                return false;
-                            }
-                        }
-                        break;
-                    case "-u":
-                        if (a + 1 < args.Length)
-                        {
-                            universeFilename = args[a + 1];
-                            if (File.Exists(universeFilename)) { UniverseFilename = universeFilename; }
-                            else
-                            {
-                                Log($"{universeFilename} not found");
-                                return false;
-                            }
-                        }
-                        break;
-                    case "-b":
-                        if (a + 1 < args.Length)
-                        {
-                            MqttBroker = args[a + 1];
-                        }
-                        break;
-                    case "-t":
-                        if (a + 1 < args.Length)
-                        {
-                            MqttDataTopic = args[a + 1];
-                        }
-                        break;
-                    case "-s":
-                        if (a + 1 < args.Length)
-                        {
-                            MqttStatusTopic = args[a + 1];
-                        }
-                        break;
-
-                }
-            }
+            if(!string.IsNullOrEmpty(config.mqttBroker)) { MqttBroker = config.mqttBroker; }
+            if(!string.IsNullOrEmpty(config.mqttDataTopic)) { MqttDataTopic = config.mqttDataTopic; }
+            if(!string.IsNullOrEmpty(config.mqttStatusTopic)) { MqttStatusTopic = config.mqttStatusTopic; }
 
 
             message.Append("\n\nSettings\n");
             message.Append($"\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds}");
-            message.Append($"\nAuto Play {AutoPlay} seconds");
+            message.Append($"\nAuto Play {AutoPlayTimeout} seconds");
             message.Append($"\nAuto Play Light Level Intensity is {AutoPlayIntensity.ToString()}");
             message.Append($"\nCycle Mode {AutoPlayCycleMode.ToString()}");
             message.Append($"\nMqtt Broker Address {MqttBroker}");

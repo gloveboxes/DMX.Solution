@@ -150,9 +150,27 @@ namespace DMX.Server
                     case "rgb":
                         if (ap.data.Length == 3)
                         {
-                            UpdateChannelData((byte)(ap.data[NextColour % ap.data.Length][0] * config.AutoPlayIntensity), fixture.redChannels, fixture);
-                            UpdateChannelData((byte)(ap.data[NextColour % ap.data.Length][1] * config.AutoPlayIntensity), fixture.greenChannels, fixture);
-                            UpdateChannelData((byte)(ap.data[NextColour % ap.data.Length][2] * config.AutoPlayIntensity), fixture.blueChannels, fixture);
+                            var red = ap.data[NextColour % ap.data.Length][0];
+                            var green = ap.data[NextColour % ap.data.Length][1];
+                            var blue = ap.data[NextColour % ap.data.Length][2];
+
+                            UpdateChannelData((byte)(red * config.AutoPlayIntensity), fixture.redChannels, fixture);
+                            UpdateChannelData((byte)(green * config.AutoPlayIntensity), fixture.greenChannels, fixture);
+                            UpdateChannelData((byte)(blue * config.AutoPlayIntensity), fixture.blueChannels, fixture);
+                        }
+                        break;
+                    case "rgbw":
+                        if (ap.data.Length == 4)
+                        {
+                            var red = ap.data[NextColour % ap.data.Length][0];
+                            var green = ap.data[NextColour % ap.data.Length][1];
+                            var blue = ap.data[NextColour % ap.data.Length][2];
+                            var white = ap.data[NextColour % ap.data.Length][3];
+
+                            UpdateChannelData((byte)(red * config.AutoPlayIntensity), fixture.redChannels, fixture);
+                            UpdateChannelData((byte)(green * config.AutoPlayIntensity), fixture.greenChannels, fixture);
+                            UpdateChannelData((byte)(blue * config.AutoPlayIntensity), fixture.blueChannels, fixture);
+                            UpdateChannelData((byte)(white * config.AutoPlayIntensity), fixture.whiteChannels, fixture);
                         }
                         break;
                     default:

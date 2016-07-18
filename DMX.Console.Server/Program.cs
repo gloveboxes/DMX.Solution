@@ -21,7 +21,7 @@ namespace DMX.Server
 
         static void Main(string[] args)
         {
-            if (!config.ParseArgs(args)) { return; }
+            if (!config.LoadConfig()) { return; }
             if (!universe.InitialiseUniverse()) { return; }
 
             dmxUpdateThread.Start();
@@ -104,7 +104,7 @@ namespace DMX.Server
                 case "high":
                 case "medium":
                 case "low":
-                    config.SetIntensity(command);
+                   // config.SetIntensity(command);
                     break;
                 default:
                     break;
@@ -116,14 +116,14 @@ namespace DMX.Server
             while (true)
             {
                 Thread.Sleep((int)config.DmxUpdateRateMilliseconds); // sets minimum cadence
-                if (config.AutoPlay == 0)
+                if (config.AutoPlayTimeout == 0)
                 {
                     dmxUpdateEvent.WaitOne();
                     universe.DmxUpdate();
                 }
                 else
                 {
-                    if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlay), false))
+                    if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlayTimeout), false))
                     {
                         universe.DmxUpdate();
                     }
