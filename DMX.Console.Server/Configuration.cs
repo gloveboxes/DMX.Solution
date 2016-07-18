@@ -79,6 +79,8 @@ namespace DMX.Server
         {
             StringBuilder message = new StringBuilder();
 
+            Log("\n\nLoading Config");
+
             Config config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilename));   
 
             if (config.dmxRefreshRateMilliseconds !=null) { DmxUpdateRateMilliseconds = (uint)config.dmxRefreshRateMilliseconds; }
@@ -94,16 +96,14 @@ namespace DMX.Server
             if(!string.IsNullOrEmpty(config.mqttStatusTopic)) { MqttStatusTopic = config.mqttStatusTopic; }
 
 
-            message.Append("\n\nSettings\n");
+            message.Append("\nConfiguration\n");
             message.Append($"\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds}");
-            message.Append($"\nAuto Play {AutoPlayTimeout} seconds");
-            message.Append($"\nAuto Play Light Level Intensity is {AutoPlayIntensity.ToString()}");
-            message.Append($"\nCycle Mode {AutoPlayCycleMode.ToString()}");
+            message.Append($"\nAuto Play Timeout {AutoPlayTimeout} seconds");
+            message.Append($"\nAuto Play Intensity is {AutoPlayIntensity}");
+            message.Append($"\nAuto Play Cycle Mode {AutoPlayCycleMode}");
             message.Append($"\nMqtt Broker Address {MqttBroker}");
             message.Append($"\nMqtt DMX Data Topic {MqttDataTopic}");
-            message.Append($"\nMqtt DMX Status Topic {MqttStatusTopic}");
-            message.Append($"\nUniverse definition path and file name {UniverseFilename}");
-
+            message.Append($"\nMqtt DMX Status Topic {MqttStatusTopic}\n");
 
             Log(message.ToString());
 
