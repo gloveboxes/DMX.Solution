@@ -9,7 +9,7 @@
     ]
   },
   {
-    "autoPlayId": "rgbLight",
+    "autoPlayId": "rgbLightOld",
     "type": "rgb",
     "data": [
       [ 255, 0, 0 ],
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "autoPlayId": "rgbLed",
+    "autoPlayId": "rgbLight",
     "type": "rgb",
     "data": [
       [ 90, 195, 0 ],

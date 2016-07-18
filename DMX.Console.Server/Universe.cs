@@ -136,23 +136,25 @@ namespace DMX.Server
                         break;
                 }
 
-                var ap = (from f in autoplay where f.autoPlayId == fixture.autoPlayId select f).FirstOrDefault();
+                var ap = (from f in autoplay where f.autoPlayId.ToLower() == fixture.autoPlayId.ToLower() select f).FirstOrDefault();
                 if (ap == null) { continue; }
+
+                var chnData = ap.data[NextColour % ap.data.Length];
 
                 switch (ap.type.ToLower())
                 {
                     case "raw":
-                        if (ap.data.Length > 0)
+                        if (chnData.Length > 0)
                         {
-                            UpdateChannel(fixture.startChannel, fixture.numberOfChannels, ap.data[NextColour % ap.data.Length]);
+                            UpdateChannel(fixture.startChannel, fixture.numberOfChannels, chnData);
                         }
                         break;
                     case "rgb":
-                        if (ap.data.Length == 3)
+                        if (chnData.Length == 3)
                         {
-                            var red = ap.data[NextColour % ap.data.Length][0];
-                            var green = ap.data[NextColour % ap.data.Length][1];
-                            var blue = ap.data[NextColour % ap.data.Length][2];
+                            var red = chnData[0];
+                            var green = chnData[1];
+                            var blue = chnData[2];
 
                             UpdateChannelData((byte)(red * config.AutoPlayIntensity), fixture.redChannels, fixture);
                             UpdateChannelData((byte)(green * config.AutoPlayIntensity), fixture.greenChannels, fixture);
@@ -160,12 +162,12 @@ namespace DMX.Server
                         }
                         break;
                     case "rgbw":
-                        if (ap.data.Length == 4)
+                        if (ap.data[NextColour % ap.data.Length].Length == 4)
                         {
-                            var red = ap.data[NextColour % ap.data.Length][0];
-                            var green = ap.data[NextColour % ap.data.Length][1];
-                            var blue = ap.data[NextColour % ap.data.Length][2];
-                            var white = ap.data[NextColour % ap.data.Length][3];
+                            var red = chnData[0];
+                            var green = chnData[1];
+                            var blue = chnData[2];
+                            var white = chnData[3];
 
                             UpdateChannelData((byte)(red * config.AutoPlayIntensity), fixture.redChannels, fixture);
                             UpdateChannelData((byte)(green * config.AutoPlayIntensity), fixture.greenChannels, fixture);
