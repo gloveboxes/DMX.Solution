@@ -9,10 +9,14 @@ sudo chmod +x installenttec.sh
 
 sudo mkdir -m 777 /home/pi/mono
 sudo mkdir -m 777 /home/pi/scripts
+sudo mkdir -m 777 /home/pi/dmx.server
 
 echo Copying setup and dmx mono executables
 
 cp -r  mono/*  /home/pi/mono/
+
+#copy default configuration files to the /home/pi/dmx.server directory
+cp mono/dmx.server/config/* /home/pi/dmx.server
 
 echo setting up Samba
 
@@ -25,6 +29,8 @@ echo setting up DMX Startup Services
 cp /home/pi/install/startdmx.sh /home/pi/scripts
 sudo chmod +x /home/pi/scripts/startdmx.sh
 sudo chown pi startdmx.sh
+
+
 
 
 sudo cp /home/pi/install/dmx.service /etc/systemd/system
