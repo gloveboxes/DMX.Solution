@@ -1,8 +1,8 @@
 ﻿{
   "dmxRefreshRateMilliseconds": 100,
-  "autoPlayTimeout": 60,
+  "autoPlayTimeout": 1,
   "autoPlayCycleMode": "synced",
-  "autoPlayIntensity": 1,
+  "autoPlayIntensity": 0.4,
   "mqttBroker": "localhost",
   "mqttDataTopic": "dmx/data/#",
   "mqttStatusTopic": "dmx/status"
