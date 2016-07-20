@@ -13,7 +13,7 @@ namespace DMX.Client
     class Program
     {
 
-        const string MqttBroker = "192.168.1.120";
+        const string MqttBroker = "localhost";
         const string MqttTopic = "dmx/data/";
         static MqttClient client = new MqttClient(MqttBroker);
 
