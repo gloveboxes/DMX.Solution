@@ -13,7 +13,7 @@ namespace DMX.Client
     class Program
     {
 
-        const string MqttBroker = "192.168.1.118";
+        const string MqttBroker = "192.168.1.120";
         const string MqttTopic = "dmx/data/";
         static MqttClient client = new MqttClient(MqttBroker);
 
@@ -26,7 +26,7 @@ namespace DMX.Client
             {
                 PublishColour();
 
-                Thread.Sleep(2);
+                Thread.Sleep(1);
             }
         }
 

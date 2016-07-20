@@ -37,11 +37,11 @@ namespace DMX.Server
 
         public Configuration()
         {
-            strProgramDataPath = Environment.OSVersion.Platform == PlatformID.Unix ? "/home/pi" : Environment.ExpandEnvironmentVariables("%PROGRAMDATA%");
+            strProgramDataPath = Environment.OSVersion.Platform == PlatformID.Unix ? AppDomain.CurrentDomain.BaseDirectory : Path.Combine(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%"), "dmx.server");
 
-            UniverseFilename = Path.Combine(strProgramDataPath, "dmx.server", "universe.json");
-            AutoPlayFilename = Path.Combine(strProgramDataPath, "dmx.server", "autoplay.json");
-            ConfigFilename = Path.Combine(strProgramDataPath, "dmx.server", "config.json");
+            UniverseFilename = Path.Combine(strProgramDataPath, "config", "universe.json");
+            AutoPlayFilename = Path.Combine(strProgramDataPath, "config", "autoplay.json");
+            ConfigFilename = Path.Combine(strProgramDataPath, "config", "config.json");
         }
 
         public void Log(string messsage)
