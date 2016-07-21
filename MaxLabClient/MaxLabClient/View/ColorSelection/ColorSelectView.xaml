@@ -29,7 +29,7 @@
         
         <controls:DebugModeView
             Visibility="{x:Bind ViewModel.DebugMode, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" 
-            VerticalAlignment="Top" 
+            VerticalAlignment="Bottom" 
             HorizontalAlignment="Right" Width="600" Height="600" />
 
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="250">

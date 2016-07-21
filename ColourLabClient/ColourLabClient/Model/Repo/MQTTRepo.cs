@@ -2,7 +2,6 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.UI;
 using TimeToShineClient.Model.Contract;
 using TimeToShineClient.Model.Entity;
 using TimeToShineClient.Model.Messages;
@@ -16,8 +15,7 @@ namespace TimeToShineClient.Model.Repo
         private readonly IConfigService _configService;
 
         MqttClient client;
-        IFixture wristband = new Wristband();
-        IFixture rgbwLight = new GenericRGBW();
+        IFixture rgbLight = new GenericRGBW();
 
         const int publishCycleTime = 100;
         AutoResetEvent publishEvent = new AutoResetEvent(false);
@@ -29,7 +27,7 @@ namespace TimeToShineClient.Model.Repo
 
             Task.Run(new Action(_publish));
         }
-      
+
 
         async void _publish()  //run async
         {
@@ -66,22 +64,14 @@ namespace TimeToShineClient.Model.Repo
 
                 try
                 {
-                    //  latestColour.MsgId = sentCount++;
-                    wristband.id = new uint[] { 1 }; 
 
-                    var json = wristband.ToJson();
+                    rgbLight.id = _configService.LightIdArray;
+
+                    var json = rgbLight.ToJson();
 
                     new DebugMessage($"Sending: Topic: {_configService.MqttTopic}, dmx: {_configService.DMXChannel}, Light Id: {Encoding.ASCII.GetString(json)}").Send();
 
                     var result = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", json);
-
-
-                    rgbwLight.id = _configService.LightIdArray;
-                    json = rgbwLight.ToJson();
-
-                    new DebugMessage($"Sending: Topic: {_configService.MqttTopic}, dmx: {_configService.DMXChannel}, Light Id: {Encoding.ASCII.GetString(json)}").Send();               
-
-                    result = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", json);
 
                     new DebugMessage($"Send result: {result}").Send();
 
@@ -95,22 +85,10 @@ namespace TimeToShineClient.Model.Repo
 
         private bool _isConnected => client != null && client.IsConnected;
 
-        public void PublishSpecial(byte b, int channel, Color color)
-        {
-            if (wristband.IsSame(channel, b)) { return; }
-
-            wristband.SetChannel(channel, b);
-            rgbwLight.SetRgb(color.R, color.G, color.B);
-
-            publishEvent.Set();
-        }
-
 
         public void Publish(Colour colour)
         {
-            if (wristband.IsSame(colour.Red, colour.Green, colour.Blue)) {return; }
-
-            wristband.SetRgb(colour.Red, colour.Green, colour.Blue);
+            if (rgbLight.SetRgb(colour.Red, colour.Green, colour.Blue)) { return; }
 
             publishEvent.Set();
 
