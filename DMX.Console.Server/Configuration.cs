@@ -20,6 +20,8 @@ namespace DMX.Server
         public uint DmxUpdateRateMilliseconds { get; set; } = 25; // default to 40 Hz
 
         #region Auto Cycle Mode
+
+        public bool AutoPlayEnabled { get; set; } = false;
         public uint AutoPlayTimeout { get; set; } = 0;
         public CycleMode AutoPlayCycleMode { get; set; } = CycleMode.synced;
         public double AutoPlayIntensity { get; set; }
@@ -86,8 +88,10 @@ namespace DMX.Server
             if (config.dmxRefreshRateMilliseconds !=null) { DmxUpdateRateMilliseconds = (uint)config.dmxRefreshRateMilliseconds; }
 
             CycleMode? cycleMode = ValidateCycleMode(config.autoPlayCycleMode);
-
             if (cycleMode != null) { AutoPlayCycleMode = (CycleMode)cycleMode; }
+
+            AutoPlayEnabled = config.autoPlayEnabled ?? false;
+
             if(config.autoPlayIntensity != null && config.autoPlayIntensity > 0 && config.autoPlayIntensity <= 1) { AutoPlayIntensity = (double)config.autoPlayIntensity; }
             if(config.autoPlayTimeout != null) { AutoPlayTimeout = (uint)config.autoPlayTimeout; }
 
@@ -97,13 +101,14 @@ namespace DMX.Server
 
 
             message.Append("\nConfiguration\n");
-            message.Append($"\nDMX Update Rate in milliseconds {DmxUpdateRateMilliseconds}");
-            message.Append($"\nAuto Play Timeout {AutoPlayTimeout} seconds");
-            message.Append($"\nAuto Play Intensity is {AutoPlayIntensity}");
-            message.Append($"\nAuto Play Cycle Mode {AutoPlayCycleMode}");
-            message.Append($"\nMqtt Broker Address {MqttBroker}");
-            message.Append($"\nMqtt DMX Data Topic {MqttDataTopic}");
-            message.Append($"\nMqtt DMX Status Topic {MqttStatusTopic}\n");
+            message.Append($"\nDMX Update Rate in milliseconds: {DmxUpdateRateMilliseconds}");
+            message.Append($"\nAuto Play Enabled at Startup: {AutoPlayEnabled}");
+            message.Append($"\nAuto Play Timeout in seconds: {AutoPlayTimeout}");
+            message.Append($"\nAuto Play Intensity: {AutoPlayIntensity}");
+            message.Append($"\nAuto Play Cycle Mode: {AutoPlayCycleMode}");
+            message.Append($"\nMqtt Broker Address: {MqttBroker}");
+            message.Append($"\nMqtt DMX Data Topic: {MqttDataTopic}");
+            message.Append($"\nMqtt DMX Status Topic: {MqttStatusTopic}\n");
 
             Log(message.ToString());
 

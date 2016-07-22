@@ -11,6 +11,9 @@ namespace DMX.Server
         public uint? autoPlayTimeout { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool? autoPlayEnabled { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string autoPlayCycleMode { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

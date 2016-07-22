@@ -117,7 +117,7 @@ namespace TimeToShineClient.View.ColorSelection
 
             Channels = new List<Channel>();
 
-            for (var c = 1; c <= 9; c++)
+            for (var c = 1; c <= 10; c++)
             {
                 Channels.Add(new Channel()
                 {
@@ -146,7 +146,8 @@ namespace TimeToShineClient.View.ColorSelection
                 Colors.Lime,
                 Colors.Teal,
                 Colors.MediumVioletRed,
-               
+                Colors.Black, // padding for button 10 which is used to initiate auto play on the server
+
             };
 
             var width = Window.Current.Bounds.Width / colours.Count;
@@ -170,6 +171,7 @@ namespace TimeToShineClient.View.ColorSelection
                     208,
                     224,
                     240,
+                    0, // padding for button 10 which is used to initiate auto play on the server
             };
 
             for (var iColor = 0; iColor < colours.Count; iColor++)

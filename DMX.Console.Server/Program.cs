@@ -101,10 +101,16 @@ namespace DMX.Server
                 case "stats":
                     instrumentation.Publish();
                     break;
-                case "high":
-                case "medium":
-                case "low":
-                   // config.SetIntensity(command);
+                case "auto":
+                    if (config.AutoPlayEnabled)
+                    {
+                        config.AutoPlayEnabled = false;
+                    }
+                    else
+                    {
+                        config.AutoPlayEnabled = true;
+                        dmxUpdateEvent.Set();
+                    }
                     break;
                 default:
                     break;
@@ -116,7 +122,7 @@ namespace DMX.Server
             while (true)
             {
                 Thread.Sleep((int)config.DmxUpdateRateMilliseconds); // sets minimum cadence
-                if (config.AutoPlayTimeout == 0)
+                if (!config.AutoPlayEnabled)
                 {
                     dmxUpdateEvent.WaitOne();
                     universe.DmxUpdate();
