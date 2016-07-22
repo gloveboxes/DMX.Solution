@@ -47,7 +47,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <controls:ChannelToggleView Margin="25,0"></controls:ChannelToggleView>
+                    <controls:ChannelToggleView Margin="10,0"></controls:ChannelToggleView>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

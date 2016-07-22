@@ -10,6 +10,6 @@
     d:DesignWidth="400" Margin="0,18,0,-18">
     
     <Grid >
-        <ToggleButton IsChecked="{Binding IsToggled, Mode=TwoWay}" Width="80" Height="80" Content="{Binding ChannelNumber}" Foreground="White" Background="#66000000" FontSize="26"></ToggleButton>
+        <ToggleButton IsChecked="{Binding IsToggled, Mode=TwoWay}" Width="70" Height="80" Content="{Binding ChannelNumber}" Foreground="White" Background="#66000000" FontSize="26"></ToggleButton>
     </Grid>
 </UserControl>

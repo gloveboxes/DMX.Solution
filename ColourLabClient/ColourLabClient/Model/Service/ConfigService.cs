@@ -53,13 +53,13 @@ namespace TimeToShineClient.Model.Service
 
         public string MqttBroker
         {
-            get { return _config[MQTT_BROKER] ?? "localhost"; }
+            get { return _config[MQTT_BROKER] ?? "rpidmx01.local"; }
             set { _config.Write(MQTT_BROKER, value); }
         }
 
         public string MqttTopic
         {
-            get { return _config[MQTT_TOPIC] ?? "dmx/data"; }
+            get { return _config[MQTT_TOPIC] ?? "dmx/data/"; }
             set { _config.Write(MQTT_TOPIC, value); }
         }
     }
