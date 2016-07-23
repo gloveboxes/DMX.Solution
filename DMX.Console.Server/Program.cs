@@ -112,6 +112,13 @@ namespace DMX.Server
                         dmxUpdateEvent.Set();
                     }
                     break;
+                case "autoplayon":
+                    config.AutoPlayEnabled = true;
+                    dmxUpdateEvent.Set();
+                    break;
+                case "autoplayoff":
+                    config.AutoPlayEnabled = false;
+                    break;
                 default:
                     break;
             }
