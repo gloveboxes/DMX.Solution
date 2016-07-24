@@ -126,6 +126,9 @@ namespace DMX.Server
 
         static void DmxUpdate()
         {
+            bool generateRandom = true;
+
+
             while (true)
             {
                 Thread.Sleep((int)config.DmxUpdateRateMilliseconds); // sets minimum cadence
@@ -136,15 +139,11 @@ namespace DMX.Server
                 }
                 else
                 {
-                    if (dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlayTimeout), false))
-                    {
-                        universe.DmxUpdate();
-                    }
-                    else
-                    {
-                        universe.RandomColour(config.AutoPlayCycleMode);
-                        universe.DmxUpdate();
-                    }
+                    if (generateRandom) { universe.RandomColour(config.AutoPlayCycleMode); }
+
+                    universe.DmxUpdate();
+
+                    generateRandom = !dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlayTimeout), false);
                 }
 
                 instrumentation.DmxSentCount++;
