@@ -22,6 +22,14 @@ namespace TimeToShineClient.Model.Repo
         const int publishCycleTime = 100;
         AutoResetEvent publishEvent = new AutoResetEvent(false);
 
+        public enum AutoPlayMode
+        {
+            Autoplayon,
+            Autoplayoff
+        }
+
+        string command = null;
+
 
         public MQTTService(IConfigService configService)
         {
@@ -66,6 +74,15 @@ namespace TimeToShineClient.Model.Repo
 
                 try
                 {
+
+                    if (command != null) // set dmx server auto play mode
+                    {
+                        string jsonCommand = "{\"command\":\"" + command + "\"}";
+                        var r = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", Encoding.UTF8.GetBytes(jsonCommand));
+                        command = null;
+                        continue;
+                    }
+
                     //  latestColour.MsgId = sentCount++;
                     wristband.id = new uint[] { 1 }; 
 
@@ -95,8 +112,17 @@ namespace TimeToShineClient.Model.Repo
 
         private bool _isConnected => client != null && client.IsConnected;
 
+        public void SetAutoPlayMode(AutoPlayMode mode)
+        {
+            command = mode.ToString().ToLower();
+            publishEvent.Set();
+        }
+
         public void PublishSpecial(byte b, int channel, Color color)
         {
+            if (channel == 9) { SetAutoPlayMode(AutoPlayMode.Autoplayon); return; }
+            if (channel == 8) { SetAutoPlayMode(AutoPlayMode.Autoplayoff); return; }
+
             if (wristband.IsSame(channel, b)) { return; }
 
             wristband.SetChannel(channel, b);

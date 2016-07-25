@@ -12,19 +12,11 @@ namespace TimeToShineClient.Model.Entity
         const int ChannelsPerFixture = 9;
         public uint[] id { get; set; } = new uint[] { 1 };
         public byte[] data { get; } = new byte[ChannelsPerFixture];
-        public string command { get; set; } = null;
 
         private int currentChannel = 0;
 
         public void SetChannel(int channel, byte value)
         {
-            if (channel == 10)
-            {
-                command = "auto";
-                return;
-            }
-            command = null; 
-
             if (channel < 1 || channel > ChannelsPerFixture) { return; }
             data[channel - 1] = value; // map 1 based channel IDs to zero based arrays
             currentChannel = channel;
