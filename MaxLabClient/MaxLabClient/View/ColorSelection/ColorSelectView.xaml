@@ -52,6 +52,10 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Autoplay On" Command="{Binding AutoplayOnCommand}"></Button>
+            <Button Content="Autoplay Off" Margin="10,0,0,0" Command="{Binding AutoplayOffCommand}"></Button>
+        </StackPanel>
 
         <controls:SettingsControlView
              Visibility="{x:Bind ViewModel.SettingsRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" Width="500" Height="500"

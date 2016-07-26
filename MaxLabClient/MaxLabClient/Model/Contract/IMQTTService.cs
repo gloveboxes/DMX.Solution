@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Windows.UI;
 using TimeToShineClient.Model.Entity;
+using TimeToShineClient.Model.Repo;
 
 namespace TimeToShineClient.Model.Contract
 {
@@ -8,6 +9,7 @@ namespace TimeToShineClient.Model.Contract
     {
         void Publish(Colour colour);
         void PublishSpecial(byte b, int channel, Color color);
-        
+
+        void SetAutoPlayMode(MQTTService.AutoPlayMode mode);
     }
 }

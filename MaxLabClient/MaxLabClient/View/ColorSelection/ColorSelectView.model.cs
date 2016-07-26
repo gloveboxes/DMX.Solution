@@ -16,6 +16,7 @@ using TimeToShineClient.Model;
 using TimeToShineClient.Model.Contract;
 using TimeToShineClient.Model.Entity;
 using TimeToShineClient.Model.Messages;
+using TimeToShineClient.Model.Repo;
 using TimeToShineClient.Util;
 using uPLibrary.Networking.M2Mqtt;
 using XamlingCore.Portable.Messages.XamlingMessenger;
@@ -28,6 +29,7 @@ namespace TimeToShineClient.View.ColorSelection
     {
         private readonly IColorService _colorService;
         private readonly IConfigService _configService;
+        private readonly IMQTTService _mqttService;
 
         private Color _brush = Colors.Transparent;
 
@@ -37,6 +39,9 @@ namespace TimeToShineClient.View.ColorSelection
 
         public ICommand SaveSettingsCommand { get; set; }
         public ICommand CancelSettingsCommand { get; set; }
+
+        public ICommand AutoplayOnCommand { get; set; }
+        public ICommand AutoplayOffCommand { get; set; }
 
         private Visibility _attractVisible;
         private bool _attractRunning;
@@ -67,14 +72,20 @@ namespace TimeToShineClient.View.ColorSelection
 
         private List<Channel> _channels;
 
-        public ColorSelectViewModel(IColorService colorService, IConfigService configService)
+        public ColorSelectViewModel(IColorService colorService, IConfigService configService, IMQTTService mqttService)
         {
             _colorService = colorService;
             _configService = configService;
+            _mqttService = mqttService;
             SaveCommand = new XCommand(_onSave);
             StartSaveCommand = new XCommand(_onStartSave);
             SaveSettingsCommand = new XCommand(_saveSettings);
             CancelSettingsCommand = new XCommand(_cancelSettings);
+
+            AutoplayOffCommand = new XCommand(_onAutoplayOff);
+            AutoplayOnCommand = new XCommand(_onAutoplayOn);
+
+
             //  _attractTimer();
             this.Register<ResetMessage>(_onReset);
             this.Register<SettingsMessage>(_onSettings);
@@ -82,6 +93,16 @@ namespace TimeToShineClient.View.ColorSelection
 
             this.Register<SpecialColorSelectedMessage>(_onSpecialColorSelected);
 
+        }
+
+        void _onAutoplayOn()
+        {
+            _mqttService.SetAutoPlayMode(MQTTService.AutoPlayMode.AutoplayOn);
+        }
+
+        void _onAutoplayOff()
+        {
+            _mqttService.SetAutoPlayMode(MQTTService.AutoPlayMode.AutoplayOn);
         }
 
         void _onSpecialColorSelected(object message)
