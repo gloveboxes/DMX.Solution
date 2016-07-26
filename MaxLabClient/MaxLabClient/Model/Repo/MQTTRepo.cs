@@ -120,9 +120,6 @@ namespace TimeToShineClient.Model.Repo
 
         public void PublishSpecial(byte b, int channel, Color color)
         {
-            if (channel == 9) { SetAutoPlayMode(AutoPlayMode.AutoplayOn); return; }
-            if (channel == 8) { SetAutoPlayMode(AutoPlayMode.AutoplayOff); return; }
-
             if (wristband.IsSame(channel, b)) { return; }
 
             wristband.SetChannel(channel, b);

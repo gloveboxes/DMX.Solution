@@ -39,7 +39,7 @@
 
         </Border>
 
-        <ItemsControl ItemsSource="{x:Bind ViewModel.Channels, Mode=OneWay}" Margin="0,0,0,50" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Channels, Mode=OneWay}" Margin="0,0,0,90" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"></StackPanel>
@@ -52,7 +52,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="0,0,10,30">
             <Button Content="Autoplay On" Command="{Binding AutoplayOnCommand}"></Button>
             <Button Content="Autoplay Off" Margin="10,0,0,0" Command="{Binding AutoplayOffCommand}"></Button>
         </StackPanel>

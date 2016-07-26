@@ -102,7 +102,7 @@ namespace TimeToShineClient.View.ColorSelection
 
         void _onAutoplayOff()
         {
-            _mqttService.SetAutoPlayMode(MQTTService.AutoPlayMode.AutoplayOn);
+            _mqttService.SetAutoPlayMode(MQTTService.AutoPlayMode.AutoplayOff);
         }
 
         void _onSpecialColorSelected(object message)
