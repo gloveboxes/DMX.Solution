@@ -12,7 +12,7 @@
     <Grid 
           x:Name="colorSpectrum">
 
-        
+
 
         <ItemsControl ItemsSource="{x:Bind ViewModel.Colours, Mode=OneWay}" Margin="0,250,0,0" >
             <ItemsControl.ItemsPanel>
@@ -26,7 +26,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
+
         <controls:DebugModeView
             Visibility="{x:Bind ViewModel.DebugMode, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" 
             VerticalAlignment="Bottom" 
@@ -34,33 +34,38 @@
 
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="250">
             <Border.Background>
-               <SolidColorBrush Color="{Binding Brush}"></SolidColorBrush>
+                <SolidColorBrush Color="{Binding Brush}"></SolidColorBrush>
             </Border.Background>
 
         </Border>
 
-        <ItemsControl ItemsSource="{x:Bind ViewModel.Channels, Mode=OneWay}" Margin="0,0,0,90" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"></StackPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <controls:ChannelToggleView Margin="10,0"></controls:ChannelToggleView>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="0,0,10,30">
-            <Button Content="Autoplay On" Command="{Binding AutoplayOnCommand}"></Button>
-            <Button Content="Autoplay Off" Margin="10,0,0,0" Command="{Binding AutoplayOffCommand}"></Button>
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Autoplay On" Margin="10" Command="{Binding AutoplayOnCommand}" FontSize="22"></Button>
+                <Button Content="Autoplay Off" Margin="10" Command="{Binding AutoplayOffCommand}" FontSize="22"></Button>
+            </StackPanel>
+
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Channels, Mode=OneWay}" Margin="50" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ChannelToggleView Margin="10,0"></controls:ChannelToggleView>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+
         </StackPanel>
 
         <controls:SettingsControlView
              Visibility="{x:Bind ViewModel.SettingsRunning, Converter={StaticResource Bool2VisConverter}, Mode=OneWay}" Width="500" Height="500"
             ></controls:SettingsControlView>
-        
+
         <!--<Image Source="/Assets/colour-labs.png" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="250" Height="250" Margin="20,0,0,50"/>-->
     </Grid>
 </view:XPage>
