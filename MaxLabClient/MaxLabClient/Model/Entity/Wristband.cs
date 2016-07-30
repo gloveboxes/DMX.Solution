@@ -17,6 +17,17 @@ namespace TimeToShineClient.Model.Entity
 
         public void SetChannel(int channel, byte value)
         {
+            if (value == 0 || value == 1)  // special case for black then zero out all as this is off for all channels
+            {
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = 0;
+                }
+
+                return;
+            }
+
+
             if (channel < 1 || channel > ChannelsPerFixture) { return; }
             data[channel - 1] = value; // map 1 based channel IDs to zero based arrays
             currentChannel = channel;
