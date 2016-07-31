@@ -176,7 +176,7 @@ namespace TimeToShineClient.View.ColorSelection
 
             var i = new List<byte>()
             {
-                    0,
+                    1,
                     16,
                     32,
                     48,

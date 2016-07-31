@@ -83,6 +83,17 @@ namespace TimeToShineClient.Model.Repo
                         continue;
                     }
 
+
+                    if (wristband.data[0] == 1) // set dmx server auto play mode
+                    {
+                        command = AutoPlayMode.AutoplayOff.ToString(); 
+
+                        string jsonCommand = "{\"command\":\"" + command + "\"}";
+                        var r = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", Encoding.UTF8.GetBytes(jsonCommand));
+                        command = null;
+                    }
+
+                    
                     //  latestColour.MsgId = sentCount++;
                     wristband.id = new uint[] { 1 }; 
 
@@ -120,7 +131,7 @@ namespace TimeToShineClient.Model.Repo
 
         public void PublishSpecial(byte b, int channel, Color color)
         {
-            if (wristband.IsSame(channel, b)) { return; }
+          //  if (wristband.IsSame(channel, b)) { return; }
 
             wristband.SetChannel(channel, b);
             rgbwLight.SetRgb(color.R, color.G, color.B);
@@ -131,7 +142,7 @@ namespace TimeToShineClient.Model.Repo
 
         public void Publish(Colour colour)
         {
-            if (wristband.IsSame(colour.Red, colour.Green, colour.Blue)) {return; }
+           // if (wristband.IsSame(colour.Red, colour.Green, colour.Blue)) {return; }
 
             wristband.SetRgb(colour.Red, colour.Green, colour.Blue);
 
