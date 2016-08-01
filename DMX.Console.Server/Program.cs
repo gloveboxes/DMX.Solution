@@ -143,7 +143,7 @@ namespace DMX.Server
 
                     universe.DmxUpdate();
 
-                    generateRandom = !dmxUpdateEvent.WaitOne(new TimeSpan(0, 0, (int)config.AutoPlayTimeout), false);
+                    generateRandom = !dmxUpdateEvent.WaitOne(TimeSpan.FromMilliseconds((int)config.AutoPlayTimeout), false);
                 }
 
                 instrumentation.DmxSentCount++;

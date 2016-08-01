@@ -42,8 +42,8 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 
             <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Autoplay On" Margin="10" Command="{Binding AutoplayOnCommand}" FontSize="22"></Button>
-                <Button Content="Autoplay Off" Margin="10" Command="{Binding AutoplayOffCommand}" FontSize="22"></Button>
+                <Button Content="Autoplay On" Margin="10" Command="{Binding AutoplayOnCommand}" FontSize="40"></Button>
+                <!--<Button Content="Autoplay Off" Margin="10" Command="{Binding AutoplayOffCommand}" FontSize="22"></Button>-->
             </StackPanel>
 
             <ItemsControl ItemsSource="{x:Bind ViewModel.Channels, Mode=OneWay}" Margin="50" >

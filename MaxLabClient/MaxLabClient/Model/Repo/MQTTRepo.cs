@@ -78,20 +78,20 @@ namespace TimeToShineClient.Model.Repo
                     if (command != null) // set dmx server auto play mode
                     {
                         string jsonCommand = "{\"command\":\"" + command + "\"}";
-                        var r = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", Encoding.UTF8.GetBytes(jsonCommand));
+                        var t = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", Encoding.UTF8.GetBytes(jsonCommand));
                         command = null;
                         continue;
                     }
 
 
-                    if (wristband.data[0] == 1) // set dmx server auto play mode
-                    {
+                    //if (wristband.data[0] == 1) // set dmx server auto play mode
+                    //{
                         command = AutoPlayMode.AutoplayOff.ToString(); 
 
-                        string jsonCommand = "{\"command\":\"" + command + "\"}";
-                        var r = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", Encoding.UTF8.GetBytes(jsonCommand));
+                        string jsonc = "{\"command\":\"" + command + "\"}";
+                        var r = client.Publish($"{_configService.MqttTopic}{_configService.DMXChannel}", Encoding.UTF8.GetBytes(jsonc));
                         command = null;
-                    }
+                    //}
 
                     
                     //  latestColour.MsgId = sentCount++;

@@ -34,7 +34,7 @@ namespace TimeToShineClient.Model.Service
             get
             {
                 var lights = LightIds;
-                return lights == null ? new uint[0] : lights.Split(',').Select(l => Convert.ToUInt32(l)).ToArray();
+                return string.IsNullOrEmpty(lights.Trim()) ? new uint[0] : lights.Split(',').Select(l => Convert.ToUInt32(l)).ToArray();
             }
            
         }

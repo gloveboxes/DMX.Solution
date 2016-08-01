@@ -1,7 +1,7 @@
 ﻿{
-  "dmxRefreshRateMilliseconds": 100,
+  "dmxRefreshRateMilliseconds": 50,
   "autoPlayEnabled": "false",
-  "autoPlayTimeout": 10,
+  "autoPlayTimeout": 500,
   "autoPlayCycleMode": "synced",
   "autoPlayIntensity": 1,
   "mqttBroker": "localhost",
