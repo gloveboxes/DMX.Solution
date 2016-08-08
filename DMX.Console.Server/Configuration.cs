@@ -37,13 +37,40 @@ namespace DMX.Server
         public string AutoPlayFilename { get; set; }
         private string ConfigFilename { get; set; }
 
+        Config config;
+
         public Configuration()
         {
             strProgramDataPath = Environment.OSVersion.Platform == PlatformID.Unix ? AppDomain.CurrentDomain.BaseDirectory : Path.Combine(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%"), "dmx.server");
+        }
 
-            UniverseFilename = Path.Combine(strProgramDataPath, "config", "universe.json");
-            AutoPlayFilename = Path.Combine(strProgramDataPath, "config", "autoplay.json");
-            ConfigFilename = Path.Combine(strProgramDataPath, "config", "config.json");
+        bool Initialise(string[] args)
+        {
+            if (args == null || args.Length != 1)
+            {
+                Log("Expected event directory name. Remember on Linux names are case sensitive");
+
+                return false;
+            }
+
+            string eventName = args[0];
+
+            UniverseFilename = Path.Combine(strProgramDataPath, "config", eventName, "universe.json");
+            AutoPlayFilename = Path.Combine(strProgramDataPath, "config", eventName, "autoplay.json");
+            ConfigFilename = Path.Combine(strProgramDataPath, "config", eventName, "config.json");
+
+            try
+            {
+                Log("\n\nLoading Config");
+                config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilename));
+            }
+            catch(Exception ex)
+            {
+                Log(ex.Message);
+                return false;
+            }
+
+            return true;
         }
 
         public void Log(string messsage)
@@ -52,7 +79,8 @@ namespace DMX.Server
         }
 
 
-        CycleMode? ValidateCycleMode(string mode) {
+        CycleMode? ValidateCycleMode(string mode)
+        {
             CycleMode cycleMode;
             if (Enum.TryParse<CycleMode>(mode.ToLowerInvariant(), out cycleMode))
             {
@@ -77,33 +105,31 @@ namespace DMX.Server
             }
         }
 
-        public bool LoadConfig()
+        public bool LoadConfig(string[] args)
         {
             StringBuilder message = new StringBuilder();
 
-            Log("\n\nLoading Config");
-
-            Config config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilename));   
-
-            if (config.dmxRefreshRateMilliseconds !=null) { DmxUpdateRateMilliseconds = (uint)config.dmxRefreshRateMilliseconds; }
+            if (!Initialise(args)) { return false; }            
+       
+            if (config.dmxRefreshRateMilliseconds != null) { DmxUpdateRateMilliseconds = (uint)config.dmxRefreshRateMilliseconds; }
 
             CycleMode? cycleMode = ValidateCycleMode(config.autoPlayCycleMode);
             if (cycleMode != null) { AutoPlayCycleMode = (CycleMode)cycleMode; }
 
             AutoPlayEnabled = config.autoPlayEnabled ?? false;
 
-            if(config.autoPlayIntensity != null && config.autoPlayIntensity > 0 && config.autoPlayIntensity <= 1) { AutoPlayIntensity = (double)config.autoPlayIntensity; }
-            if(config.autoPlayTimeout != null) { AutoPlayTimeout = (uint)config.autoPlayTimeout; }
+            if (config.autoPlayIntensity != null && config.autoPlayIntensity > 0 && config.autoPlayIntensity <= 1) { AutoPlayIntensity = (double)config.autoPlayIntensity; }
+            if (config.autoPlayTimeout != null) { AutoPlayTimeout = (uint)config.autoPlayTimeout; }
 
-            if(!string.IsNullOrEmpty(config.mqttBroker)) { MqttBroker = config.mqttBroker; }
-            if(!string.IsNullOrEmpty(config.mqttDataTopic)) { MqttDataTopic = config.mqttDataTopic; }
-            if(!string.IsNullOrEmpty(config.mqttStatusTopic)) { MqttStatusTopic = config.mqttStatusTopic; }
+            if (!string.IsNullOrEmpty(config.mqttBroker)) { MqttBroker = config.mqttBroker; }
+            if (!string.IsNullOrEmpty(config.mqttDataTopic)) { MqttDataTopic = config.mqttDataTopic; }
+            if (!string.IsNullOrEmpty(config.mqttStatusTopic)) { MqttStatusTopic = config.mqttStatusTopic; }
 
 
             message.Append("\nConfiguration\n");
             message.Append($"\nDMX Update Rate in milliseconds: {DmxUpdateRateMilliseconds}");
             message.Append($"\nAuto Play Enabled at Startup: {AutoPlayEnabled}");
-            message.Append($"\nAuto Play Timeout in seconds: {AutoPlayTimeout}");
+            message.Append($"\nAuto Play Timeout in milliseconds: {AutoPlayTimeout}");
             message.Append($"\nAuto Play Intensity: {AutoPlayIntensity}");
             message.Append($"\nAuto Play Cycle Mode: {AutoPlayCycleMode}");
             message.Append($"\nMqtt Broker Address: {MqttBroker}");

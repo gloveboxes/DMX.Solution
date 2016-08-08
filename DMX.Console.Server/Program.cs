@@ -21,7 +21,7 @@ namespace DMX.Server
 
         static void Main(string[] args)
         {
-            if (!config.LoadConfig()) { return; }
+            if (!config.LoadConfig(args)) { return; }
             if (!universe.InitialiseUniverse()) { return; }
 
             dmxUpdateThread.Start();

@@ -1,23 +1,5 @@
 ﻿[
-  {
-    "autoPlayId": "wristband",
-    "type": "raw",
-    "data": [
-      [ 16 ],
-      [ 32 ],
-      [ 48 ]
-    ]
-  },
-  {
-    "autoPlayId": "rgbLightOld",
-    "type": "rgb",
-    "data": [
-      [ 255, 0, 0 ],
-      [ 0, 255, 0 ],
-      [ 0, 0, 255 ]
-    ]
-  },
-  {
+ {
     "autoPlayId": "rgbwLight",
     "type": "rgbw",
     "data": [
