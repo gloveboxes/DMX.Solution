@@ -1,0 +1,106 @@
+﻿[
+  {
+    "desc": "Wristband",
+    "fixtureId": 1,
+    "startChannel": 1,
+    "numberOfChannels": 9,
+    "initialChannelMask": [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    "autoPlayId": "wristband"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 2,
+    "startChannel": 10,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 3,
+    "startChannel": 15,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 4,
+    "startChannel": 20,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 5,
+    "startChannel": 25,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 6,
+    "startChannel": 30,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 7,
+    "startChannel": 35,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 8,
+    "startChannel": 40,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  },
+  {
+    "desc": "LED QuadPAR 7 & QuadPAR 18 Light",
+    "fixtureId": 9,
+    "startChannel": 45,
+    "numberOfChannels": 5,
+    "initialChannelMask": [ 255, 0, 0, 0, 0 ],
+    "redChannels": [ 2 ],
+    "greenChannels": [ 3 ],
+    "blueChannels": [ 4 ],
+    "whiteChannels": [ 5 ],
+    "autoPlayId": "rgbwLight"
+  }
+]

@@ -1,0 +1,90 @@
+﻿[
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 1,
+    "startChannel": 1,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 2,
+    "startChannel": 5,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 3,
+    "startChannel": 9,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 4,
+    "startChannel": 13,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 5,
+    "startChannel": 17,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 6,
+    "startChannel": 21,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 7,
+    "startChannel": 25,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "SlimPar Q12 Quad Light Powerhouse",
+    "fixtureId": 8,
+    "startChannel": 29,
+    "numberOfChannels": 4,
+    "initialChannelMask": [ 0, 0, 0, 0 ],
+    "redChannels": [ 1 ],
+    "greenChannels": [ 2 ],
+    "blueChannels": [ 3 ],
+    "autoPlayId": "rgbLight"
+  }
+]
