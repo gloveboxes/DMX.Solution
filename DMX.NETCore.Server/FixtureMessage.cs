@@ -3,7 +3,7 @@
 namespace DMX.Server
 {
     public class FixtureMessage
-    {       
+    {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public uint[] id { get; set; }
 

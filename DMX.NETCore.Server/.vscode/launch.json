@@ -13,6 +13,7 @@
             "cwd": "~/${workspaceFolderBasename}",
             "stopAtEntry": false,
             "console": "internalConsole",
+            "args":["test"],
             "linux": {
                 "pipeTransport": {
                     "pipeCwd": "${workspaceRoot}",

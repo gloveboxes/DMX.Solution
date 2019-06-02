@@ -13,7 +13,7 @@
                     ";",
                     "sh",
                    "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename}\""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@raspberrypi.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "osx": {
@@ -26,7 +26,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename}\""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@raspberrypi.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "windows": {
@@ -39,7 +39,7 @@
                     "&&",
                     "bash",
                     "-c",
-                    "\"rsync -rvuz ${command:extension.vscode-wsl-workspaceFolder}/bin/linux-arm/publish/ pi@<YOUR RASPBERRY PI ADDRESS>:~/${workspaceFolderBasename}\""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@<YOUR RASPBERRY PI IP ADDRESS>:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@<YOUR RASPBERRY PI IP ADDRESS>:~/${workspaceFolderBasename} \""
                 ],
             },
             "problemMatcher": "$msCompile"

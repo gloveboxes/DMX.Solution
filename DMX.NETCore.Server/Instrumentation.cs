@@ -15,12 +15,13 @@ namespace DMX.Server
 
         public DateTime StartupTime = DateTime.Now;
 
-        public DateTime Time { get { return DateTime.Now; }}
-        public uint DmxSentCount { get; set; } 
+        public DateTime Time { get { return DateTime.Now; } }
+        public uint DmxSentCount { get; set; }
         public ulong MessagesReceived
         {
             get { return messagesReceived; }
-            set {
+            set
+            {
                 messagesReceived = value;
                 if (messagesReceived % 10000 == 0)
                 {
@@ -46,7 +47,9 @@ namespace DMX.Server
         public string ExceptionMessage
         {
             get { return exceptionMessage; }
-            set { exceptionMessage = value;
+            set
+            {
+                exceptionMessage = value;
                 Publish();
             }
         }

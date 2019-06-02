@@ -4,7 +4,7 @@ namespace DMX.Server
 {
     public class Colour
     {
-        public static double Intensity { get ; set; } = 1;
+        public static double Intensity { get; set; } = 1;
 
         private byte _red, _green, _blue, _white;
 

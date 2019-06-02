@@ -31,6 +31,6 @@ namespace DMX.Server
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string autoPlayId { get; set; }
-        
+
     }
 }

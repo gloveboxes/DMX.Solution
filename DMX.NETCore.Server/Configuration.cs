@@ -46,32 +46,18 @@ namespace DMX.Server
 
         bool Initialise(string[] args)
         {
-            // if (args == null || args.Length != 1)
-            // {
-            //     Log("Expected event directory name. Remember on Linux names are case sensitive");
+            string eventName = (args == null || args.Length != 1) ? "default" : args[0];
 
-            //     return false;
-            // }
-
-            // string eventName = args[0];
-
-            // UniverseFilename = Path.Combine(strProgramDataPath, "config", eventName, "universe.json");
-            // AutoPlayFilename = Path.Combine(strProgramDataPath, "config", eventName, "autoplay.json");
-            // ConfigFilename = Path.Combine(strProgramDataPath, "config", eventName, "config.json");
-
-
-            var configPath = "/home/pi/config/home";
-
-            UniverseFilename = Path.Combine(configPath, "universe.json");
-            AutoPlayFilename = Path.Combine(configPath, "autoplay.json");
-            ConfigFilename = Path.Combine(configPath, "config.json");
+            UniverseFilename = Path.Combine(strProgramDataPath, "config", eventName, "universe.json");
+            AutoPlayFilename = Path.Combine(strProgramDataPath, "config", eventName, "autoplay.json");
+            ConfigFilename = Path.Combine(strProgramDataPath, "config", eventName, "config.json");
 
             try
             {
                 Log("\n\nLoading Config");
                 config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilename));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log(ex.Message);
                 return false;
@@ -116,8 +102,8 @@ namespace DMX.Server
         {
             StringBuilder message = new StringBuilder();
 
-            if (!Initialise(args)) { return false; }            
-       
+            if (!Initialise(args)) { return false; }
+
             if (config.dmxRefreshRateMilliseconds != null) { DmxUpdateRateMilliseconds = (uint)config.dmxRefreshRateMilliseconds; }
 
             CycleMode? cycleMode = ValidateCycleMode(config.autoPlayCycleMode);

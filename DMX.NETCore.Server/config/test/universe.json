@@ -1,0 +1,26 @@
+﻿[
+  {
+    "desc": "LED PAR 12 RGBW Light",
+    "fixtureId": 1,
+    "startChannel": 37,
+    "numberOfChannels": 8,
+    "initialChannelMask": [ 0, 0, 0, 255, 0, 0, 0, 0 ],
+    "redChannels": [ 5 ],
+    "greenChannels": [ 6 ],
+    "blueChannels": [ 7 ],
+    "whiteChannels": [ 8 ],
+    "autoPlayId": "rgbLight"
+  },
+  {
+    "desc": "LED PAR 12 RGBW Light",
+    "fixtureId": 2,
+    "startChannel": 45,
+    "numberOfChannels": 8,
+    "initialChannelMask": [ 0, 0, 0, 255, 0, 0, 0, 0 ],
+    "redChannels": [ 5 ],
+    "greenChannels": [ 6 ],
+    "blueChannels": [ 7 ],
+    "whiteChannels": [ 8 ],
+    "autoPlayId": "rgbLight"
+  }
+]
