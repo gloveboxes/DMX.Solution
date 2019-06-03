@@ -13,7 +13,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@dmxserver.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "osx": {
@@ -26,7 +26,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@dmxserver.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "windows": {

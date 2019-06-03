@@ -21,7 +21,7 @@
                     "pipeCwd": "${workspaceRoot}",
                     "pipeProgram": "/usr/bin/ssh",
                     "pipeArgs": [
-                        "pi@raspberrypi.local"
+                        "pi@dmxserver.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }
@@ -31,7 +31,7 @@
                     "pipeCwd": "${workspaceRoot}",
                     "pipeProgram": "/usr/bin/ssh",
                     "pipeArgs": [
-                        "pi@raspberrypi.local"
+                        "pi@dmxserver.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }
@@ -44,7 +44,7 @@
                         "-ssh",
                         "-pw",
                         "raspberry",
-                        "pi@raspberrypi.local"
+                        "pi@dmxserver.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }

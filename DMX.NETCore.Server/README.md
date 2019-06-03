@@ -348,8 +348,7 @@ static domain_name_servers=194.161.154.253
 ```bash
 sudo ldconfig -v
 
-sudo ldconfig -v | grep libftd2
-```
+sudo ldconfig -v | grep libftd2```
 
 
 ## Beaglebone Tips and Tricks
