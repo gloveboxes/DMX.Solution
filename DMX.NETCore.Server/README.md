@@ -44,16 +44,14 @@ MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Cl
 ### Installation on Linux
 
 ```bash
-    export libftd_version=1.4.8
-
-    wget https://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx-arm-v7-hf-$libftd_version.gz
-
-    tar xfvz libftd2xx-arm-v7-hf-$libftd_version.gz
-    cd release/build
-    sudo cp libftd2xx.* /usr/local/lib
-    sudo chmod 0755 /usr/local/lib/libftd2xx.so.$libftd_version
-    sudo rm /usr/local/lib/libftd2xx.so
-    sudo ln -sf /usr/local/lib/libftd2xx.so.$libftd_version /usr/local/lib/libftd2xx.so
+export libftd_version=1.4.8 && \
+wget https://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx-arm-v7-hf-$libftd_version.gz && \
+tar xfvz libftd2xx-arm-v7-hf-$libftd_version.gz && \
+cd release/build && \
+sudo cp libftd2xx.* /usr/local/lib && \
+sudo chmod 0755 /usr/local/lib/libftd2xx.so.$libftd_version && \
+sudo rm -f /usr/local/lib/libftd2xx.so && \
+sudo ln -sf /usr/local/lib/libftd2xx.so.$libftd_version /usr/local/lib/libftd2xx.so
 ```
 
 ### Installation on Windows
