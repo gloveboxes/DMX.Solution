@@ -5,15 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Publish, Launch, and Attach Debugger",
+            "name": "Raspberry Pi Publish, Launch, and Attach Debugger",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "publish",
+            "preLaunchTask": "RaspberryPublish",
             "program": "~/${workspaceFolderBasename}/${workspaceFolderBasename}",
             "cwd": "~/${workspaceFolderBasename}",
             "stopAtEntry": false,
             "console": "internalConsole",
-            "args":["test"],
+            "args": [
+                "test"
+            ],
             "linux": {
                 "pipeTransport": {
                     "pipeCwd": "${workspaceRoot}",
@@ -29,7 +31,7 @@
                     "pipeCwd": "${workspaceRoot}",
                     "pipeProgram": "/usr/bin/ssh",
                     "pipeArgs": [
-                        "pi@rpirover.local"
+                        "pi@raspberrypi.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }
@@ -49,23 +51,50 @@
             }
         },
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Beaglebone Publish, Launch, and Attach Debugger",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/DMX.NETCore.Server.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
+            "preLaunchTask": "BeaglebonePublish",
+            "program": "~/${workspaceFolderBasename}/${workspaceFolderBasename}",
+            "cwd": "~/${workspaceFolderBasename}",
+            "stopAtEntry": false,
             "console": "internalConsole",
-            "stopAtEntry": false
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "args": [
+                "test"
+            ],
+            "linux": {
+                "pipeTransport": {
+                    "pipeCwd": "${workspaceRoot}",
+                    "pipeProgram": "/usr/bin/ssh",
+                    "pipeArgs": [
+                        "debian@beaglebone.lan"
+                    ],
+                    "debuggerPath": "~/vsdbg/vsdbg"
+                }
+            },
+            "osx": {
+                "pipeTransport": {
+                    "pipeCwd": "${workspaceRoot}",
+                    "pipeProgram": "/usr/bin/ssh",
+                    "pipeArgs": [
+                        "debian@beaglebone.lan"
+                    ],
+                    "debuggerPath": "~/vsdbg/vsdbg"
+                }
+            },
+            "windows": {
+                "pipeTransport": {
+                    "pipeCwd": "${workspaceRoot}",
+                    "pipeProgram": "plink",
+                    "pipeArgs": [
+                        "-ssh",
+                        "-pw",
+                        "raspberry",
+                        "debian@beaglebone.lan"
+                    ],
+                    "debuggerPath": "~/vsdbg/vsdbg"
+                }
+            }
         }
     ]
 }

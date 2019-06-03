@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "publish",
+            "label": "RaspberryPublish",
             "linux": {
                 "command": "sh",
                 "type": "shell",
@@ -12,8 +12,8 @@
                     "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
                     ";",
                     "sh",
-                   "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@raspberrypi.local:~/${workspaceFolderBasename} \""
+                    "-c",
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
                 ],
             },
             "osx": {
@@ -26,7 +26,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@raspberrypi.local:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@raspberrypi.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
                 ],
             },
             "windows": {
@@ -45,35 +45,47 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/DMX.NETCore.Server.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/DMX.NETCore.Server.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/DMX.NETCore.Server.csproj"
-            ],
-            "problemMatcher": "$tsc"
+            "label": "BeaglebonePublish",
+            "linux": {
+                "command": "sh",
+                "type": "shell",
+                "args": [
+                    "-c",
+                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
+                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
+                    ";",
+                    "sh",
+                    "-c",
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.lan:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
+                ],
+            },
+            "osx": {
+                "command": "sh",
+                "type": "shell",
+                "args": [
+                    "-c",
+                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
+                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
+                    ";",
+                    "sh",
+                    "-c",
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.lan:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
+                ],
+            },
+            "windows": {
+                "command": "cmd",
+                "type": "shell",
+                "args": [
+                    "/c",
+                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
+                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
+                    "&&",
+                    "bash",
+                    "-c",
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@<YOUR BEAGEBONE PI IP ADDRESS>:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@<YOUR RASPBERRY PI IP ADDRESS>:~/${workspaceFolderBasename} \""
+                ],
+            },
+            "problemMatcher": "$msCompile"
         }
     ]
 }
