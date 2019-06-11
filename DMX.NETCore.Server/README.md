@@ -2,6 +2,8 @@
 
 MQTT Based ENTTEC DMX Server (Windows and Mono on Raspberry Pi), Touch Colour Client
 
+![DMX Server in action](resources/dmx-server.jpg)
+
 ## Design
 
 1. DMX Light Server - MQTT Subscriber to json colour messages.
