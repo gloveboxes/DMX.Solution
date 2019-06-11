@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/DMX.REST.Bridge.dll",
-            "args": [],
+            "args": ["https://your-dmx-function.azurewebsites.net/api"],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",
@@ -33,7 +33,7 @@
             "stopAtEntry": false,
             "console": "internalConsole",
             "args": [
-                "test"
+                "https://your-dmx-function.azurewebsites.net/api"
             ],
             "linux": {
                 "pipeTransport": {
@@ -79,14 +79,14 @@
             "stopAtEntry": false,
             "console": "internalConsole",
             "args": [
-                "test"
+                "https://your-dmx-function.azurewebsites.net/api"
             ],
             "linux": {
                 "pipeTransport": {
                     "pipeCwd": "${workspaceRoot}",
                     "pipeProgram": "/usr/bin/ssh",
                     "pipeArgs": [
-                        "debian@beaglebone.lan"
+                        "debian@beaglebone.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }
@@ -96,7 +96,7 @@
                     "pipeCwd": "${workspaceRoot}",
                     "pipeProgram": "/usr/bin/ssh",
                     "pipeArgs": [
-                        "debian@beaglebone.lan"
+                        "debian@beaglebone.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }
@@ -109,7 +109,7 @@
                         "-ssh",
                         "-pw",
                         "raspberry",
-                        "debian@beaglebone.lan"
+                        "debian@beaglebone.local"
                     ],
                     "debuggerPath": "~/vsdbg/vsdbg"
                 }

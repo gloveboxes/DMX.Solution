@@ -44,7 +44,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@dmxserver.local:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "osx": {
@@ -57,7 +57,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@dmxserver.local:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "windows": {
@@ -87,7 +87,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.lan:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "osx": {
@@ -100,7 +100,7 @@
                     ";",
                     "sh",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.lan:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config debian@beaglebone.lan:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename} \""
                 ],
             },
             "windows": {
@@ -113,7 +113,7 @@
                     "&&",
                     "bash",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@<YOUR BEAGEBONE PI IP ADDRESS>:~/${workspaceFolderBasename} && rsync -rvuz ${workspaceFolder}/config pi@<YOUR RASPBERRY PI IP ADDRESS>:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@<YOUR BEAGEBONE PI IP ADDRESS>:~/${workspaceFolderBasename} \""
                 ],
             },
             "problemMatcher": "$msCompile"
