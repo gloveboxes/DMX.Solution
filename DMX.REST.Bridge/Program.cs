@@ -1,119 +1,100 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
+using MQTTnet;
+using MQTTnet.Client;
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Logging;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace DMX.REST.Bridge
 {
     class Program
     {
-        static MqttClient client;
-        static AutoResetEvent signalrDisconnectedEvent = new AutoResetEvent(false);
-        static string baseUrl = "https://dmx-controller.azurewebsites.net/api";
-        static string mqttBroker = "localhost";
+        private const string _mqttBroker = "localhost";
 
-        static void Main(string[] args)
+        private static IMqttClient _mqttClient;
+
+        static async Task Main(string[] args)
         {
-            while (true)
-            {
-                InitMQTT();
-                InitSignalR();
-
-                signalrDisconnectedEvent.WaitOne();
-                client.Disconnect();
+            if (args.Length == 0){
+                Console.WriteLine("Expecting SignalR Function URI as command line argument");
             }
-        }
-
-        private static void InitMQTT()
-        {
-            client = null;
-            while (true)
-            {
-                try
-                {
-                    client = new MqttClient(mqttBroker);
-                    client.Connect("DMXBridge");
-
-                    if (client != null && client.IsConnected)
-                    {
-                        break;
-                    }
-                    else {
-                        Thread.Sleep(5000);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error connecting to MQTT Server {ex.Message}");
-                    client = null;
-                    Thread.Sleep(5000);                    
-                }
+            else {
+                Console.WriteLine(args[0]);
             }
-        }
 
-        public static async Task<int> InitSignalR()
-        {
-            var uri = new Uri(baseUrl);
-            MqttClient _client = client;
+            Uri signalrFunctionUri = new Uri(args[0]);
 
-            var connection = new HubConnectionBuilder()
-                .WithUrl(uri)
-                .ConfigureLogging(logging =>
-                {
-                    logging.SetMinimumLevel(LogLevel.Information);
-                    logging.AddConsole();
-                }).Build();
+            // Set up MQTT COnnection to DMX Server
+            var factory = new MqttFactory();
+            _mqttClient = factory.CreateMqttClient();
 
+            var options = new MqttClientOptionsBuilder()
+                .WithTcpServer(_mqttBroker)
+                .WithCleanSession()
+                .Build();
 
-            // Set up handler
-            connection.On<string>("newMessage", Command);
-
-            connection.Closed += e =>
+            _mqttClient.Connected += (s, e) =>
             {
-                Console.WriteLine("Connection closed...");
-
-                signalrDisconnectedEvent.Set();
-                return Task.CompletedTask;
+                Console.WriteLine("### MQTT DMX Server Connected ###");
             };
-            await ConnectAsync(connection);
 
-            Console.WriteLine("Connected to {0}", uri);
-
-            return 0;
-        }
-
-        private static void Command(String cmd)
-        {
-            byte[] bytes = Encoding.ASCII.GetBytes(cmd);
-            client.Publish("dmx/data", bytes);
-        }
-
-        private static async Task<bool> ConnectAsync(HubConnection connection)
-        {
-            while (true)
+            _mqttClient.Disconnected += async (s, e) =>
             {
+                Console.WriteLine("### Disconnected from MQTT DMX Server ###");
+                await Task.Delay(TimeSpan.FromSeconds(5));
+
                 try
                 {
-                    await connection.StartAsync();
-                    return true;
+                    await _mqttClient.ConnectAsync(options);
+                    Console.WriteLine("### Reconnected to MQTT DMX Server ### ");
                 }
-                catch (ObjectDisposedException)
+                catch
                 {
-                    // Client side killed the connection
-                    return false;
+                    Console.WriteLine("### Reconnecting to MQTT DMX Server Failed ###");
                 }
-                catch (Exception)
-                {
-                    Console.WriteLine("Failed to connect, trying again in 5000(ms)");
+            };
 
-                    await Task.Delay(5000);
-                }
+            // Set up SignalR Connection
+
+            var signalrConnection = new HubConnectionBuilder()
+                 .WithUrl(signalrFunctionUri)
+                 .ConfigureLogging(logging =>
+                 {
+                     logging.SetMinimumLevel(LogLevel.Information);
+                     logging.AddConsole();
+                 }).Build();
+
+            signalrConnection.On<string>("newMessage", CommandAsync);
+
+            signalrConnection.Closed += async e =>
+            {
+                Console.WriteLine("### SignalR Connection closed... ###");
+                await signalrConnection.StartAsync();
+                Console.WriteLine("### Connected to SignalR... ###");
+            };
+
+            try
+            {
+                await _mqttClient.ConnectAsync(options);
+                await signalrConnection.StartAsync();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Thread.Sleep(Timeout.Infinite);
+        }
+
+        private static async Task CommandAsync(String cmd)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(cmd);
+            var msg = new MqttApplicationMessage();
+            msg.Topic = "dmx/data";
+            msg.Payload = data;
+            await _mqttClient.PublishAsync(msg);
         }
     }
 }
