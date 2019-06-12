@@ -9,60 +9,23 @@
                 "build",
                 "${workspaceFolder}/DMX.REST.Bridge.csproj"
             ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/DMX.REST.Bridge.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/DMX.REST.Bridge.csproj"
-            ],
-            "problemMatcher": "$tsc"
+            "problemMatcher": "$msCompile"
         },
         {
             "label": "RaspberryPublish",
-            "linux": {
-                "command": "sh",
-                "type": "shell",
-                "args": [
-                    "-c",
-                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
-                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
-                    ";",
-                    "sh",
-                    "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} \""
-                ],
-            },
-            "osx": {
-                "command": "sh",
-                "type": "shell",
-                "args": [
-                    "-c",
-                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
-                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
-                    ";",
-                    "sh",
-                    "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} \""
-                ],
-            },
+            "command": "sh",
+            "type": "shell",
+            "args": [
+                "-c",
+                "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
+                "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
+                ";",
+                "sh",
+                "-c",
+                "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} \""
+            ],
             "windows": {
                 "command": "cmd",
-                "type": "shell",
                 "args": [
                     "/c",
                     "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
@@ -77,35 +40,19 @@
         },
         {
             "label": "BeaglebonePublish",
-            "linux": {
-                "command": "sh",
-                "type": "shell",
-                "args": [
-                    "-c",
-                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
-                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
-                    ";",
-                    "sh",
-                    "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename} \""
-                ],
-            },
-            "osx": {
-                "command": "sh",
-                "type": "shell",
-                "args": [
-                    "-c",
-                    "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
-                    "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
-                    ";",
-                    "sh",
-                    "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename} \""
-                ],
-            },
+            "command": "sh",
+            "type": "shell",
+            "args": [
+                "-c",
+                "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
+                "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
+                ";",
+                "sh",
+                "-c",
+                "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename} \""
+            ],           
             "windows": {
                 "command": "cmd",
-                "type": "shell",
                 "args": [
                     "/c",
                     "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
@@ -113,7 +60,7 @@
                     "&&",
                     "bash",
                     "-c",
-                    "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@<YOUR BEAGEBONE PI IP ADDRESS>:~/${workspaceFolderBasename} \""
+                    "\"rsync -rvuz $(wslpath '${workspaceFolder}')/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename}\""
                 ],
             },
             "problemMatcher": "$msCompile"

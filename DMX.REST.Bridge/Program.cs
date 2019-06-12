@@ -17,10 +17,12 @@ namespace DMX.REST.Bridge
 
         static async Task Main(string[] args)
         {
-            if (args.Length == 0){
+            if (args.Length == 0)
+            {
                 Console.WriteLine("Expecting SignalR Function URI as command line argument");
             }
-            else {
+            else
+            {
                 Console.WriteLine(args[0]);
             }
 
@@ -68,10 +70,19 @@ namespace DMX.REST.Bridge
 
             signalrConnection.On<string>("newMessage", CommandAsync);
 
-            signalrConnection.Closed += async e =>
+            signalrConnection.Closed += async error =>
             {
                 Console.WriteLine("### SignalR Connection closed... ###");
-                await signalrConnection.StartAsync();
+                // await signalrConnection.StartAsync();
+                try
+                {
+                    await Task.Delay(new Random().Next(0,5) * 1000);
+                    await signalrConnection.StartAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"### SignalR Connection Exception: {ex.Message}");
+                }
                 Console.WriteLine("### Connected to SignalR... ###");
             };
 
