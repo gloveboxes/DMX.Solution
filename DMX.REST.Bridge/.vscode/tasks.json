@@ -15,6 +15,7 @@
             "label": "RaspberryPublish",
             "command": "sh",
             "type": "shell",
+            "problemMatcher": "$msCompile",
             "args": [
                 "-c",
                 "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
@@ -22,7 +23,7 @@
                 ";",
                 "sh",
                 "-c",
-                "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename} \""
+                "\"rsync -rvuz ${workspaceFolder}/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename}\""
             ],
             "windows": {
                 "command": "cmd",
@@ -31,12 +32,11 @@
                     "\"dotnet publish -r linux-arm -o bin/linux-arm/publish",
                     "${workspaceFolder}/${workspaceFolderBasename}.csproj\"",
                     "&&",
-                    "pwsh",
+                    "bash",
                     "-c",
-                    "\"scp -r ${workspaceFolder}/bin/linux-arm/publish/ pi@10.168.11.199:~/${workspaceFolderBasename}  \""
-                ],
-            },
-            "problemMatcher": "$msCompile"
+                    "\"rsync -rvuz $(wslpath '${workspaceFolder}')/bin/linux-arm/publish/ pi@dmxserver.local:~/${workspaceFolderBasename}\""
+                ]
+            }
         },
         {
             "label": "BeaglebonePublish",
@@ -61,7 +61,7 @@
                     "bash",
                     "-c",
                     "\"rsync -rvuz $(wslpath '${workspaceFolder}')/bin/linux-arm/publish/ debian@beaglebone.local:~/${workspaceFolderBasename}\""
-                ],
+                ]
             },
             "problemMatcher": "$msCompile"
         }
